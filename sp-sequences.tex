@@ -1,0 +1,319 @@
+\documentclass[a4paper, english, 10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{lmodern}
+\usepackage{tgpagella}
+
+\usepackage{geometry}
+\geometry{ hmargin=3cm, vmargin=3.5cm }
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\makeatletter
+\newcommand{\@templatetitle}{On Strategyproof Picking Sequences} % Le titre
+\newcommand{\@templatesubtitle}{~}
+\newcommand{\@templateauthor}{Sylvain B.} % Les auteurs
+\newcommand{\@templatedate}{\today} % Les auteurs
+\newcommand{\@templatekeywords}{} % Les mots-clefs
+\newcommand{\@templatesubject}{} % Le sujet
+\makeatother
+
+\makeatletter
+\fancyhf{} % clear all fields
+\fancyhead[C]{\nouppercase{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\footnotesize\selectfont\color{gray} \@templatetitle}} % Insérer le titre ici
+\renewcommand{\headrule}{\color{lightgray}\hrule}
+\fancyfoot[C]{\fontfamily{\sfdefault}\fontseries{m}\fontshape{sf}\small\selectfont\thepage}
+\makeatother
+
+\usepackage{natbib}
+\renewcommand{\cite}[1]{\citep{#1}}
+\usepackage{babel}
+
+\setlength{\overfullrule}{10pt}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{latexsym}                   % Symboles
+\usepackage{mathrsfs}                   % Oh, les jolies lettres calligraphiées !
+\usepackage{stmaryrd}                   % Pour avoir les délimiteurs entiers
+\usepackage[amsmath, thmmarks]{ntheorem} % Un environnement theorem custom
+\usepackage{breakcites}
+\usepackage{stmaryrd}
+\usepackage{booktabs}
+\usepackage{listings} % Pour insérer du code source
+
+
+\usepackage{tcolorbox,listings}
+\usepackage{fullpage}
+\usepackage{color}
+
+\definecolor{darkWhite}{rgb}{0.94,0.94,0.94}
+
+\lstset{
+	backgroundcolor=\color{darkWhite},
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	commentstyle=\color{red},
+	deletekeywords={...},
+	escapeinside={\%*}{*)},
+	extendedchars=true,
+	keepspaces=true,
+	keywordstyle=\color{blue},
+	language=C,
+	morekeywords={*,...},
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	stepnumber=1,
+	stringstyle=\color{gray},
+	tabsize=4,
+	title=\lstname,
+}
+
+\lstdefinestyle{frameStyle}{
+	basicstyle=\footnotesize,
+	numbers=left,
+	numbersep=20pt,
+	numberstyle=\tiny\color{black}
+}
+
+\tcbuselibrary{listings,skins,breakable}
+
+\newtcblisting{customFrame}{
+	arc=0mm,
+	top=0mm,
+	bottom=0mm,
+	left=3mm,
+	right=0mm,
+	width=\textwidth,
+	listing only,
+	listing options={style=frameStyle},
+	breakable
+}
+
+
+\usepackage{tikz}
+
+\usepackage[pdftex]{hyperref}
+
+\usepackage{theorem}
+\theoremsymbol{$\blacksquare$}
+{\theorembodyfont{\rmfamily}\newtheorem{exemple}{Exemple}}
+
+\newcommand{\fixme}[1]{{\small\color{red}[FIXME : #1]}}
+\makeatletter
+\newcommand{\Omit}[1]{\ifhmode \@bsphack \@esphack \fi}
+\makeatother
+
+\definecolor{mycyan}{rgb}{0,0.2,0.4}
+\hypersetup{%
+  colorlinks=true,
+  citecolor=mycyan,
+  linkcolor=mycyan,
+  anchorcolor=mycyan,
+  urlcolor=mycyan,
+  pdfstartview=FitH,
+  pdfdisplaydoctitle=true,
+  %pdfwindowui=false,
+  pdftoolbar=true,
+  pdfmenubar=true
+}
+
+\makeatletter
+\hypersetup{%
+  pdftitle={\@templatetitle},
+  pdfauthor={\@templateauthor},
+  pdfsubject={\@templatesubject},
+  pdfkeywords={\@templatekeywords}
+}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Notations
+
+\newcommand{\ee}{\mathcal{E}}
+\newcommand{\var}[1]{\mathbf{#1}}
+\newenvironment{resume}{
+  \textbf{Abstract}\quad\itshape
+}{
+  \vskip\parskip
+}
+\newcommand{\motsclefs}[1]{\textbf{Keywords} \quad #1\\\vskip\parskip}
+
+\DeclareMathOperator{\argmax}{argmax}
+\newtheorem{definition}{Definition}
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\makeatletter
+\title{\@templatetitle}
+\author{\@templateauthor}
+\date{\@templatedate}
+\makeatother
+
+\makeatletter
+\renewcommand{\maketitle}{
+  \begin{center}
+    {\LARGE\sffamily\bfseries \@templatetitle}\\\hrulefill\\
+    {\large \@templatesubtitle}\\\vskip0.5cm
+    \@templateauthor\\
+    \@templatedate\\\vskip0.5cm
+  \end{center}
+}
+\makeatother
+
+\begin{document}
+\renewcommand{\labelitemi}{\tikz\fill[rounded corners=1pt] (0, 0) -- (4pt, 2.5pt) -- (0pt, 5pt) -- cycle;}
+
+\thispagestyle{plain}
+
+\maketitle
+
+\begin{abstract}
+  This short note is about strategyproof picking sequences, namely,
+  picking sequences where the agents pick all their objects in a row,
+  in a serial dictatorship fashion. Hopefully, the computation of the
+  fairest sequence is much easier in this case.
+\end{abstract}
+
+
+\section{Two agents}
+
+We assume that there are two agents Alice and Bob ($A$ and $B$) and
+$m$ objects labeled from 1 to $m$. We consider that the agents have
+Borda utility functions. We assume Full Independence assumption: the
+benevolent dictator is ignorant of Alice's and Bob's actual
+preferences, but assumes that all the ordinal are equally probable.
+
+We focus on picking policies of the following form:
+\[
+  \pi^k = \underbrace{AA \dots A}_{k \text{ times}}\underbrace{BB \dots B}_{m - k \text{ times}}
+\]
+
+The question is the following one. What is the integer $k$ such that
+$\pi^k$ maximizes the egalitarian expected utility? In other words, we
+look for:
+\[
+  \argmax_{k \in \{ 1, ... m \}}(\min(\overline{u(A, \pi^k)}, \overline{u(B, \pi^k)}))
+\]
+
+Of course, we assume that both Alice and Bob are rational players:
+they act according to their dominant strategy. Here, the only dominant
+strategy for both of them is to pick their preferred items (truthful
+strategy).
+
+\subsection{Computation of expected utility}
+
+\subsubsection{Alice}
+
+Alice's expected utility can be computed immediately. No matter what
+Bob's preferences are she will always pick her $k$ best objects. Hence:
+\[
+  \overline{u(A, \pi^k)} = \frac{m(m+1)}{2} - \frac{(m-k)(m-k+1)}{2}
+\]
+
+We will assume without loss of generality, that Bob has the following
+preferences over items: $1 \succ 2 \succ ... \succ m$. Concerning
+Alice, all the linear orders on $\{ 1, ..., m \}$ are equally probable
+(Full Independence assumption).
+
+\subsubsection{Bob}
+
+Bob's expected utility is less immediate to compute. Let us introduce the following
+notation:
+
+\begin{definition}
+  Let $n$, $k \leq n$ and $t \leq \frac{n(n+1)}{2}$ be three
+  integers. Then:
+  \[
+    S(n, k, t) = \left|\{\mathcal{S} \subset \{1, \dots, n\}\ |\ \sum_{x_i \in \mathcal{S}} x_i = t \text{ and } |\mathcal{S}| = k\}\right|.
+  \]
+  In other words, $S(n, k, t)$ is the number of different subsets of
+  $k$ elements from $\{1, \dots, n\}$ that sum up to $t$.
+\end{definition}
+
+
+The possible utilities for Bob range from $\frac{(n-k)(n-k+1)}{2}$ (if
+the $k$ items picked by Alice are Bob's $k$ top ones) to
+$\frac{n(n+1)}{2} - \frac{k(k+1)}{2}$ (if the $k$ items picked by
+Alice are Bob's $k$ bottom ones). More generally, Bob will get utility
+$U$ if and only the items picked by Alice are worth
+$\frac{n(n+1)}{2} - U$ for Bob. There are 
+$S(n, k, \frac{n(n+1)}{2} - U)$ subsets of that kind. 
+For the Alice's utilitie the order of the k firsts ones and the n-k lasts ones  doesn't matter (the k firsts will all be picked and the n-k last not) so permutation won't change the utility of Bob (U).
+So Alice could choose $S(n, k, \frac{n(n+1)}{2} - U) \times k! \times (n-k)!$ linear orders verifying this property among the $n!$ possible ones.
+
+
+\subsubsection{Compute(S(n,k,t))}
+\begin{customFrame}
+def subset_sum(n, k, target, memo=None):
+	""" Computes (and returns) the number of possibilities of taking k different integers between 1 and n who sum up to target. """
+	
+	if memo is None:
+		return subset_sum(n, k, target, [[[-1 for _ in range(target + 1)]
+										for _ in range(k + 1)] for _ in range(n + 1)])
+	if k == 0:
+		return int(target == 0)
+	elif target <= 0 or n == 0:
+		return 0
+	if memo[n][k][target] == -1:
+		memo[n][k][target] = (
+			subset_sum(n - 1, k - 1, target - n, memo) + 
+			subset_sum(n - 1, k, target, memo))
+	return memo[n][k][target]
+
+\end{customFrame}
+
+\begin{description}
+	\item[Termination:] The natural n is decremented at each call of subset-sum, because $\mathbb{N}$ is well-ordered the algorithm end.
+	\item[Correctness:] 
+	
+		\begin{description}
+			
+			\item[If memo is None:] Is called once, to pre-initialize the table used for memoization
+			\item[If $k==0$ :] A subset of zero element is unique and can only sum up to 0, so $S(n,0,0) = 1$ and $S(n,0,t) = 0$ for $t > 0$ 
+			\item[If $target <= 0$ :] Every utilitie is a strictly positive integer so it is impossible to reach a negative target
+			\item[If $n==0$ :] There is no subset of the empty set
+			 
+		\end{description}
+\end{description} 
+
+
+\subsection{Optimal policy}
+
+\begin{tabular}{lll}
+  \toprule
+  $m$ & $\hat{k}$ & $\hat{k} / m$\\
+  \midrule
+  10 & 4 & 0.4\\
+  20 & 8 & 0.4\\
+  30 & 12 & 0.4\\
+  40 & 15 & 0.375\\
+  50 & 19 & 0.38\\
+  60 & 23 & 0.38333...\\
+  100 & 38 & 0.38\\
+  \bottomrule
+\end{tabular}
+
+
+
+% \bibliographystyle{plainnat-fr}
+% \bibliography{partage}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
