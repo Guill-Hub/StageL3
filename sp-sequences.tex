@@ -276,14 +276,29 @@ def subset_sum(n, k, target, memo=None):
 
 \begin{description}
 	\item[Termination:] The natural n is decremented at each call of subset-sum, because $\mathbb{N}$ is well-ordered the algorithm end.
-	\item[Correctness:] 
+	\item[Correctness:] By induction over (n,k,t) (with lexicographic order):
+	
 	
 		\begin{description}
-			
+			\item[Init :]
+			\begin{description}
 			\item[If memo is None:] Is called once, to pre-initialize the table used for memoization
 			\item[If $k==0$ :] A subset of zero element is unique and can only sum up to 0, so $S(n,0,0) = 1$ and $S(n,0,t) = 0$ for $t > 0$ 
 			\item[If $target <= 0$ :] Every utilitie is a strictly positive integer so it is impossible to reach a negative target
 			\item[If $n==0$ :] There is no subset of the empty set
+			\end{description}
+			\item[Inductive step :] Let suppose that subset\_sum(n',k',target',memo) is correct for every (n',k',target') < (n,k,target) then:
+			 If $ memo(n,k,target) == -1 $ (i.e if subset\_sum(n,k,target,memo) hasn't be called before) then there is two distincts cases:
+			  \begin{itemize}
+			  	\item Alice pick the object of utility n, so she had to pick another k-1 objects from $\{1, \dots, n-1\}$ such as it sum up to t' = target - n, which is exactly S(n-1,k-1,target - n, memo) so subset\_sum(n-1,k-1,target - n, memo) by hypothese of induction
+			  	\item Alice don't pick the object of utility n, so she has still k objects summing to target to choose from $\{1, \dots, n-1\}$, which is subset\_sum(n-1,k,target , memo) by hypothese of induction
+			  \end{itemize}
+		  So subset\_sum(n,k,t) = S(n - 1, k - 1, target - n, memo) + S(n - 1, k, target, memo)) = S(n,k,t)
+		  We store that value in memo not to compute it every time we need it, and we return it
+		  
+
+			
+			
 			 
 		\end{description}
 \end{description} 
