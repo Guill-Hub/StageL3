@@ -228,6 +228,7 @@ Alice, all the linear orders on $\{ 1, ..., m \}$ are equally probable
 (Full Independence assumption).
 
 \subsubsection{Bob}
+\label{BobTh}
 
 Bob's expected utility is less immediate to compute. Let us introduce the following
 notation:
@@ -287,13 +288,13 @@ def subset_sum(n, k, target, memo=None):
 			\item[If $target <= 0$ :] Every utilitie is a strictly positive integer so it is impossible to reach a negative target
 			\item[If $n==0$ :] There is no subset of the empty set
 			\end{description}
-			\item[Inductive step :] Let suppose that subset\_sum(n',k',target',memo) is correct for every (n',k',target') < (n,k,target) then:
+			\item[Inductive step :] Let suppose that subset\_sum(n',k',target',memo) is egal to S(n',k',target') for every (n',k',target') < (n,k,target) then:
 			 If $ memo(n,k,target) == -1 $ (i.e if subset\_sum(n,k,target,memo) hasn't be called before) then there is two distincts cases:
 			  \begin{itemize}
 			  	\item Alice pick the object of utility n, so she had to pick another k-1 objects from $\{1, \dots, n-1\}$ such as it sum up to t' = target - n, which is exactly S(n-1,k-1,target - n, memo) so subset\_sum(n-1,k-1,target - n, memo) by hypothese of induction
 			  	\item Alice don't pick the object of utility n, so she has still k objects summing to target to choose from $\{1, \dots, n-1\}$, which is subset\_sum(n-1,k,target , memo) by hypothese of induction
 			  \end{itemize}
-		  So subset\_sum(n,k,t) = S(n - 1, k - 1, target - n, memo) + S(n - 1, k, target, memo)) = S(n,k,t)
+		  Finally subset\_sum(n,k,t) = S(n - 1, k - 1, target - n, memo) + S(n - 1, k, target, memo)) = S(n,k,t)
 		  We store that value in memo not to compute it every time we need it, and we return it
 		  
 
@@ -303,8 +304,50 @@ def subset_sum(n, k, target, memo=None):
 		\end{description}
 \end{description} 
 
+\subsubsection{Computing bob expexted utility}
+
+	\begin{customFrame}
+	def bobs_expected_utility(n, k, memo=None):
+	"""
+	Computes (and returns) the expected utility for Bob, assuming
+	that there are n objects, and Alice picks the first k ones.
+	"""
+	
+	total_utility = int(n * (n + 1) / 2)
+	min_picked = int(k * (k + 1) / 2)
+	max_picked = total_utility - int((n - k) * (n - k + 1) / 2)
+	return sum((total_utility - picked) * subset_sum(n, k, picked, memo)
+	for picked in range(min_picked, max_picked + 1)) * factorial(k) * factorial(n - k) / factorial(n)		
+	\end{customFrame}
+This algorithm is the direct application of \ref{BobTh}
 
 \subsection{Optimal policy}
+
+\subsubsection{Compute optimal policy}
+
+	\begin{customFrame}
+	def optimal_cut(n):
+	"""
+	Computes (and returns) the optimal cut for n object. In other words,
+	this number is the integer k that guarantees the best egalitarian expected
+	utility for Alice and Bob if Alice picks the first k items and Bob the n-k
+	remaining ones.
+	"""
+	total_utility = int(n * (n + 1) / 2)
+	last_min = 0
+	memo = -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
+	for k in range(1, n + 1):
+	alice = total_utility - int((n - k) * (n - k + 1) / 2)
+	bob = bobs_expected_utility(n, k, memo)
+	if alice > bob:
+	return (k - 1 if last_min > min(alice, bob) else k,
+	alice, bob)
+	last_min = min(alice, bob)
+	assert False, "We shouldn't be here..."
+	return	
+\end{customFrame}
+
+\subsubsection{Some numbers}
 
 \begin{tabular}{lll}
   \toprule
