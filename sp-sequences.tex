@@ -147,6 +147,7 @@
 
 \DeclareMathOperator{\argmax}{argmax}
 \newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
 
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,6 +217,7 @@ strategy).
 
 \subsubsection{Alice}
 
+\label{AliceTh}
 Alice's expected utility can be computed immediately. No matter what
 Bob's preferences are she will always pick her $k$ best objects. Hence:
 \[
@@ -319,7 +321,10 @@ def subset_sum(n, k, target, memo=None):
 	return sum((total_utility - picked) * subset_sum(n, k, picked, memo)
 	for picked in range(min_picked, max_picked + 1)) * factorial(k) * factorial(n - k) / factorial(n)		
 	\end{customFrame}
-This algorithm is the direct application of \ref{BobTh}
+\label{BobComp}
+\begin{theorem}
+	bobs\_expected\_utility return $ \overline{u(B, \pi^k)} $ as a the direct application of \ref{BobTh}
+\end{theorem}
 
 \subsection{Optimal policy}
 
@@ -346,6 +351,31 @@ This algorithm is the direct application of \ref{BobTh}
 	assert False, "We shouldn't be here..."
 	return	
 \end{customFrame}
+
+
+
+\begin{theorem}[Correctness] \ 
+	
+	$\bullet$
+	First we notice that we have the invariants loop :
+	alice = $\overline{u(A, \pi^k)}$ and bob = $ \overline{u(B, \pi^k)} $ as a direct result of \ref{AliceTh} and \ref{BobComp}.
+	
+	
+	$\bullet$ For k = 0 (alice pick nothing) there is $\overline{u(A, \pi^k)} < \overline{u(B, \pi^k)} $
+	
+	$\bullet$ For k = n (alice pick everything) there is  $\overline{u(A, \pi^k)} > \overline{u(B, \pi^k)} $
+	
+	$\bullet$ The application $\phi(k) \rightarrow \overline{u(A, \pi^k)} $ is strictly increasing (more k is high more Alice will have)
+	
+	$\bullet$ The application $\psi(k) \rightarrow \overline{u(B, \pi^k)} $ is strictly decreasing (more k is high less Bob will have)
+	
+	So the first time alice > bob is the breakpoint from where before, $\overline{u(A, \pi^k)} < \overline{u(B, \pi^k)} $ and after $\overline{u(A, \pi^k)} > \overline{u(B, \pi^k)} $ ie.
+	$ \min(\overline{u(A, \pi^k)} ,\overline{u(B, \pi^k)} ) = \overline{u(A, \pi^k)}$ before and 
+	$ \min(\overline{u(A, \pi^k)} ,\overline{u(B, \pi^k)} ) = \overline{u(B, \pi^k)} $ after.
+	By growth of $\phi$ and decrease of $\psi$ the max of min is reached at this point, or the time before. It is why the algorithm check which of the min are max and return the argument of the max of the min, and the expected utiliy of alice and bob for this argument
+	
+
+\end{theorem}
 
 \subsubsection{Some numbers}
 

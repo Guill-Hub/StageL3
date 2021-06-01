@@ -51,16 +51,14 @@ def optimal_cut(n):
         alice = total_utility - int((n - k) * (n - k + 1) / 2)
         bob = bobs_expected_utility(n, k, memo)
         if alice > bob:
-            return (k - 1 if last_min > min(alice, bob) else k,
-                    alice, bob)
+            if last_min > min(alice, bob):
+                k--
+                alice = total_utility - int((n - k) * (n - k + 1) / 2)
+                bob = bobs_expected_utility(n, k, memo)
+            return (k , alice, bob)
         last_min = min(alice, bob)
     assert False, "We shouldn't be here..."
     return
-
-def binom(n,k):
-    bin = 1
-    for i in range(k):
-        bin = (bin * (n-i))// (i+1)
 
 
 print(optimal_cut(60))
