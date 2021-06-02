@@ -254,7 +254,11 @@ $U$ if and only the items picked by Alice are worth
 $\frac{n(n+1)}{2} - U$ for Bob. There are 
 $S(n, k, \frac{n(n+1)}{2} - U)$ subsets of that kind. 
 For the Alice's utilitie the order of the k firsts ones and the n-k lasts ones  doesn't matter (the k firsts will all be picked and the n-k last not) so permutation won't change the utility of Bob (U).
-So Alice could choose $S(n, k, \frac{n(n+1)}{2} - U) \times k! \times (n-k)!$ linear orders verifying this property among the $n!$ possible ones.
+So Alice could choose $S(n, k, \frac{n(n+1)}{2} - U) \times k! \times (n-k)!$ linear orders verifying this property among the $n!$ possible ones. \
+Then by definition of expected utility which (faire la jolie formule ) ... \
+ $\overline{u(B, \pi^k)} =
+{\sum_{U = \frac{(n-k)(n-k+1)}{2} }^{\frac{n(n+1)}{2} - \frac{k(k+1)}{2}} U \times Pr(U)} = {\sum_{U = \frac{(n-k)(n-k+1)}{2} }^{\frac{n(n+1)}{2} - \frac{k(k+1)}{2}} U \times \frac{ S(n, k, \frac{n(n+1)}{2} - U) \times k! \times (n-k)!}{n!}} $
+.
 
 
 \subsubsection{Compute(S(n,k,t))}
@@ -331,25 +335,29 @@ def subset_sum(n, k, target, memo=None):
 \subsubsection{Compute optimal policy}
 
 	\begin{customFrame}
-	def optimal_cut(n):
-	"""
-	Computes (and returns) the optimal cut for n object. In other words,
-	this number is the integer k that guarantees the best egalitarian expected
-	utility for Alice and Bob if Alice picks the first k items and Bob the n-k
-	remaining ones.
-	"""
-	total_utility = int(n * (n + 1) / 2)
-	last_min = 0
-	memo = -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
-	for k in range(1, n + 1):
-	alice = total_utility - int((n - k) * (n - k + 1) / 2)
-	bob = bobs_expected_utility(n, k, memo)
-	if alice > bob:
-	return (k - 1 if last_min > min(alice, bob) else k,
-	alice, bob)
-	last_min = min(alice, bob)
-	assert False, "We shouldn't be here..."
-	return	
+def optimal_cut(n):
+"""
+Computes (and returns) the optimal cut for n object. In other words,
+this number is the integer k that guarantees the best egalitarian expected
+utility for Alice and Bob if Alice picks the first k items and Bob the n-k
+remaining ones.
+"""
+total_utility = int(n * (n + 1) / 2)
+last_min = 0
+memo = -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
+for k in range(1, n + 1):
+alice = total_utility - int((n - k) * (n - k + 1) / 2)
+bob = bobs_expected_utility(n, k, memo)
+if alice > bob:
+if last_min > min(alice, bob):
+k-=1
+alice = total_utility - int((n - k) * (n - k + 1) / 2)
+bob = bobs_expected_utility(n, k, memo)
+return (k , alice, bob)
+last_min = min(alice, bob)
+assert False, "We shouldn't be here..."
+return
+	
 \end{customFrame}
 
 
@@ -372,7 +380,7 @@ def subset_sum(n, k, target, memo=None):
 	So the first time alice > bob is the breakpoint from where before, $\overline{u(A, \pi^k)} < \overline{u(B, \pi^k)} $ and after $\overline{u(A, \pi^k)} > \overline{u(B, \pi^k)} $ ie.
 	$ \min(\overline{u(A, \pi^k)} ,\overline{u(B, \pi^k)} ) = \overline{u(A, \pi^k)}$ before and 
 	$ \min(\overline{u(A, \pi^k)} ,\overline{u(B, \pi^k)} ) = \overline{u(B, \pi^k)} $ after.
-	By growth of $\phi$ and decrease of $\psi$ the max of min is reached at this point, or the time before. It is why the algorithm check which of the min are max and return the argument of the max of the min, and the expected utiliy of alice and bob for this argument
+	By growth of $\phi$ and decrease of $\psi$ the max of min is reached at this point, or the time before. It is why the algorithm check which of the min are max and return the argument of the max of the mins, and the expected utiliy of alice and bob for this argument
 	
 
 \end{theorem}

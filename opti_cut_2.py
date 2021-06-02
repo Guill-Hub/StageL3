@@ -52,7 +52,7 @@ def optimal_cut(n):
         bob = bobs_expected_utility(n, k, memo)
         if alice > bob:
             if last_min > min(alice, bob):
-                k--
+                k-=1
                 alice = total_utility - int((n - k) * (n - k + 1) / 2)
                 bob = bobs_expected_utility(n, k, memo)
             return (k , alice, bob)
@@ -61,4 +61,4 @@ def optimal_cut(n):
     return
 
 
-print(optimal_cut(60))
+print(optimal_cut(20))
