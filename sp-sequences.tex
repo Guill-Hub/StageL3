@@ -250,10 +250,11 @@ The possible utilities for Bob range from $\frac{(n-k)(n-k+1)}{2}$ (if
 the $k$ items picked by Alice are Bob's $k$ top ones) to
 $\frac{n(n+1)}{2} - \frac{k(k+1)}{2}$ (if the $k$ items picked by
 Alice are Bob's $k$ bottom ones). More generally, Bob will get utility
-$U$ if and only the items picked by Alice are worth
+$U$ if and only if the items picked by Alice are worth
 $\frac{n(n+1)}{2} - U$ for Bob. There are 
 $S(n, k, \frac{n(n+1)}{2} - U)$ subsets of that kind. 
-For the Alice's utilitie the order of the k firsts ones and the n-k lasts ones  doesn't matter (the k firsts will all be picked and the n-k last not) so permutation won't change the utility of Bob (U).
+For every of those subset, the order between the k elements Alice will choose and the n-k that left (i.e Bob will get) doesn't matter
+so any permutation of it will lead to the same utility U for Bob,  there is $ k! \times (n-k)! $ such permutations .
 So Alice could choose $S(n, k, \frac{n(n+1)}{2} - U) \times k! \times (n-k)!$ linear orders verifying this property among the $n!$ possible ones. \
 Then by definition of expected utility which (faire la jolie formule ) ... \
  $\overline{u(B, \pi^k)} =

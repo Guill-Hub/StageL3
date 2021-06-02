@@ -37,7 +37,7 @@ def bobs_expected_utility(n, k, memo=None):
                for picked in range(min_picked, max_picked + 1)) * factorial(k) * factorial(n - k) / factorial(n)
 
 
-def optimal_cut(n):
+def optimal_egalitarian_cut(n):
     """
     Computes (and returns) the optimal cut for n object. In other words,
     this number is the integer k that guarantees the best egalitarian expected
@@ -61,4 +61,28 @@ def optimal_cut(n):
     return
 
 
-print(optimal_cut(20))
+def optimal_utilitarian_cut(n):
+    total_utility = int(n * (n + 1) / 2)
+    memo = -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
+    sum_utility_max = int(n * (n + 1) / 2) # k = 0
+    argmax = 0
+    alice_max = total_utility
+    bob_max = 0
+
+    for k in range(1, n+1):
+        alice = total_utility - int((n - k) * (n - k + 1) / 2)
+        bob = bobs_expected_utility(n, k, memo)
+        sum_utility = alice + bob
+        if sum_utility > sum_utility_max:
+            sum_utility_max = sum_utility
+            argmax = k
+            bob_max = bob
+            alice_max = alice
+    return (argmax,alice_max,bob_max)
+        
+
+def test(n):
+    print(optimal_utilitarian_cut(n))
+    print(optimal_egalitarian_cut(n))
+    
+test(50)
