@@ -150,4 +150,39 @@ def ploting3(n):
     plt.plot(X,A, color = 'r')
     plt.show()
 
-ploting3(50)
+
+def opti(n,m):
+    T = np.zeros((m+1,n+1,m+1,2)) # T[m][n] pour m agents et n objets renvoit un tableau t tq t[0][1] = social_welfare, t[i][0] = le nombre d'objets select par les i premiers agent (ie endroit de la ième coupe), t[i][1] = U(i)
+    total_utility = int(n * (n + 1) / 2)
+    for i in range(1,n+1):
+        oeci = optimal_egalitarian_cut(i)
+        T[2][i][1][1] = oeci[1]
+        T[2][i][2][1] = oeci[2]
+        T[2][i][1][0] = oeci[0]
+        T[2][i][2][0] = i
+        T[2][i][0][1] = min(oeci[1],oeci[2])
+    for nb_agent in range(3,m+1):
+        for nb_objet in range(1,n+1):
+            
+            #total_utility = int(nb_objet * (nb_objet + 1) / 2)
+            social_welfare_max = 0
+            Ulast_max = 0
+            argmax = 0
+            for nb_objet_last in range(1,nb_objet):
+                memo =  -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
+                Ulast = bobs_expected_utility(nb_objet,nb_objet - nb_objet_last,memo)
+                social_welfare = min( Ulast, T[m-1,nb_objet - nb_objet_last,0,1])
+                if social_welfare > social_welfare_max:
+                    social_welfare_max = social_welfare
+                    Ulast_max = Ulast
+                    argmax = nb_objet - nb_objet_last
+                if Ulast > T[m-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
+                    break
+            T[nb_agent][nb_objet] = T[nb_agent-1][argmax]
+            T[nb_agent][nb_objet][0][1] = social_welfare_max
+            T[nb_agent][nb_objet][nb_agent][1] = Ulast_max
+            T[nb_agent][nb_objet][nb_agent][0] = nb_objet
+    print(T)
+    return T[m,n]
+
+print(opti(4,3))
