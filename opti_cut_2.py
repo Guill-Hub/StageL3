@@ -3,6 +3,7 @@
 from math import factorial
 import numpy as np
 import matplotlib.pyplot as plt
+import copy
 
 
 def subset_sum(n, k, target, memo=None):
@@ -169,10 +170,10 @@ def opti(n,m):
             Ulast_max = 0
             argmax = 0
             for nb_objet_last in range(1,nb_objet):
-                print(T[m-1,nb_objet - nb_objet_last,0,1])
+                #print(T[m-1,nb_objet - nb_objet_last,0,1])
                 memo =  -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
                 Ulast = bobs_expected_utility(nb_objet,nb_objet - nb_objet_last,memo)
-                partiel = T[nb_agent-1,nb_objet - nb_objet_last]
+                partiel = copy.deepcopy(T[nb_agent-1,nb_objet - nb_objet_last])
                 partiel[1][1] += partiel[1][0] * nb_objet_last #il faut ajouter le fait que chaque objet prit par les i premiers participants ont en fait une valeur += "le nombre d'objets laissé au dernier" 
                 social_welfare = partiel[1][1]
                 for i in range(2,nb_agent): 
@@ -192,9 +193,9 @@ def opti(n,m):
                  #   break
             
             T[nb_agent][nb_objet][nb_agent][0] = nb_objet
-    print(T)
+    #print(T)
     return T[m,n]
 
 # ok j'ai toruvé pb, le vecteur de borda est emputé des derniers el et donc les U perdent de la veleur
 
-print(opti(4,3))
+print(opti(20,5))
