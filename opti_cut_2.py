@@ -198,4 +198,64 @@ def opti(n,m):
 
 # ok j'ai toruvé pb, le vecteur de borda est emputé des derniers el et donc les U perdent de la veleur
 
-print(opti(20,5))
+# print(opti(20,5))
+
+
+def opti_mat(n,m):
+    T = np.zeros((m+1,n+1,m+1,2)) # T[m][n] pour m agents et n objets renvoit un tableau t tq t[0][1] = social_welfare, t[i][0] = le nombre d'objets select par les i premiers agent (ie endroit de la ième coupe), t[i][1] = U(i)
+    total_utility = int(n * (n + 1) / 2)
+    for i in range(1,n+1):
+        oeci = optimal_egalitarian_cut(i)
+        T[2][i][1][1] = oeci[1]
+        T[2][i][2][1] = oeci[2]
+        T[2][i][1][0] = oeci[0]
+        T[2][i][2][0] = i
+        T[2][i][0][1] = min(oeci[1],oeci[2])
+    for nb_agent in range(3,m+1):
+        for nb_objet in range(1,n+1):
+            
+            #total_utility = int(nb_objet * (nb_objet + 1) / 2)
+            social_welfare_max = 0
+            Ulast_max = 0
+            argmax = 0
+            for nb_objet_last in range(1,nb_objet):
+                #print(T[m-1,nb_objet - nb_objet_last,0,1])
+                memo =  -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
+                Ulast = bobs_expected_utility(nb_objet,nb_objet - nb_objet_last,memo)
+                partiel = copy.deepcopy(T[nb_agent-1,nb_objet - nb_objet_last])
+                partiel[1][1] += partiel[1][0] * nb_objet_last #il faut ajouter le fait que chaque objet prit par les i premiers participants ont en fait une valeur += "le nombre d'objets laissé au dernier" 
+                social_welfare = partiel[1][1]
+                for i in range(2,nb_agent): 
+                    partiel[i][1] +=  (partiel[i][0] - partiel[i-1][0] ) * nb_objet_last
+                    social_welfare = min(social_welfare,partiel[i][1])
+                    
+                    
+                social_welfare = min( Ulast, social_welfare)
+
+                if social_welfare > social_welfare_max:
+                    social_welfare_max = social_welfare
+                    argmax = nb_objet - nb_objet_last
+                    T[nb_agent][nb_objet] = partiel
+                    T[nb_agent][nb_objet][0][1] = social_welfare_max
+                    T[nb_agent][nb_objet][nb_agent][1] = Ulast
+                #if Ulast > T[m-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
+                 #   break
+            
+            T[nb_agent][nb_objet][nb_agent][0] = nb_objet
+    #print(T)
+    return T
+
+import matplotlib.cm as cm
+
+def plot_opti_n(n,m):
+    Y = opti_mat(n,m)
+    X = [i for i in range(n+1)]
+    for i in range(1,m+1):
+        plt.plot(X,Y[m,:,i,1],color=cm.cool(i/m))
+    plt.show()
+    print(T[m,n])
+
+#print(opti(4,3))
+
+#incrémentale
+print(optimal_egalitarian_cut(50))
