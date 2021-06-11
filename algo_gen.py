@@ -70,10 +70,12 @@ def optimal_egalitarian_cut(n,V):
 def Borda(n):
     return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
 
+def Lexico(n):
+    return [0]+ [2**(n-i) for i in range(1,n+1)]
 #print(optimal_egalitarian_cut(50,Borda(50)))
 
 
-def gen(n,m,V):
+def gen_egal(n,m,V):
     T = np.zeros((m+1,n+1,m+1,2)) # T[m][n] pour m agents et n objets renvoit un tableau t tq t[0][1] = social_welfare, t[i][0] = le nombre d'objets select par les i premiers agent (ie endroit de la ième coupe), t[i][1] = U(i)
     total_utility = sum( V[i]  for i in range(1,n+1))
     for i in range(1,n+1):
@@ -86,7 +88,6 @@ def gen(n,m,V):
     for nb_agent in range(3,m+1):
         for nb_objet in range(1,n+1):
             
-            #total_utility = int(nb_objet * (nb_objet + 1) / 2)
             social_welfare_max = 0
             Ulast_max = 0
             argmax = 0
@@ -95,7 +96,7 @@ def gen(n,m,V):
                 memo =  -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
                 Ulast = bobs_expected_utility(nb_objet,nb_objet - nb_objet_last,V,memo)
                 partiel = copy.deepcopy(T[nb_agent-1,nb_objet - nb_objet_last])
-                social_welfare = partiel[1][1]
+                social_welfare = partiel[0][1]
                 
                 social_welfare = min( Ulast, social_welfare)
 
@@ -105,11 +106,12 @@ def gen(n,m,V):
                     T[nb_agent][nb_objet] = partiel
                     T[nb_agent][nb_objet][0][1] = social_welfare_max
                     T[nb_agent][nb_objet][nb_agent][1] = Ulast
-                #if Ulast > T[m-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
-                 #   break
+                if Ulast > T[m-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
+                    break
             
             T[nb_agent][nb_objet][nb_agent][0] = nb_objet
     #print(T)
     return T[m,n]
 
-print(gen(20,3,Borda(20)))
+#print(gen_egal(20,3,Lexico(20)))
+print(gen_egal(30,3,Borda(30)))
