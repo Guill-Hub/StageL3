@@ -95,7 +95,7 @@ def gen_egal(n,m,V):
                 
                 if Ulast > T[nb_agent-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
                     U_before = bobs_expected_utility(nb_objet,nb_objet - nb_objet_last +1,V,memo)
-                    if T[m-1,nb_objet - nb_objet_last,0,1] < min(U_before,T[nb_agent-1,nb_objet - nb_objet_last +1,0,1]):
+                    if T[nb_agent-1,nb_objet - nb_objet_last,0,1] < min(U_before,T[nb_agent-1,nb_objet - nb_objet_last +1,0,1]):
                         nb_objet_last -= 1
                         Ulast = U_before
                     social_welfare = min( Ulast, T[nb_agent-1,nb_objet - nb_objet_last][0][1])
