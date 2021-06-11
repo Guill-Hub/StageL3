@@ -93,20 +93,19 @@ def gen_egal(n,m,V):
                 memo =  -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
                 Ulast = bobs_expected_utility(nb_objet,nb_objet - nb_objet_last,V,memo)
                 
-                if Ulast > T[m-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
+                if Ulast > T[nb_agent-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
                     U_before = bobs_expected_utility(nb_objet,nb_objet - nb_objet_last +1,V,memo)
-                    if T[m-1,nb_objet - nb_objet_last,0,1] < min(U_before,T[m-1,nb_objet - nb_objet_last +1,0,1]):
+                    if T[m-1,nb_objet - nb_objet_last,0,1] < min(U_before,T[nb_agent-1,nb_objet - nb_objet_last +1,0,1]):
                         nb_objet_last -= 1
                         Ulast = U_before
                     social_welfare = min( Ulast, T[nb_agent-1,nb_objet - nb_objet_last][0][1])
                     T[nb_agent][nb_objet] = copy.deepcopy(T[nb_agent-1,nb_objet - nb_objet_last])
                     T[nb_agent][nb_objet][0][1] = social_welfare
                     T[nb_agent][nb_objet][nb_agent][1] = Ulast
-                    
-                if Ulast > T[m-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
-                    br
+                    T[nb_agent][nb_objet][nb_agent][0] = nb_objet
+                    break
+                
             
-            T[nb_agent][nb_objet][nb_agent][0] = nb_objet
     #print(T)
     return T[m,n]
 
