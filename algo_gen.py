@@ -88,30 +88,27 @@ def gen_egal(n,m,V):
     for nb_agent in range(3,m+1):
         for nb_objet in range(1,n+1):
             
-            social_welfare_max = 0
-            Ulast_max = 0
-            argmax = 0
             for nb_objet_last in range(1,nb_objet):
                 #print(T[m-1,nb_objet - nb_objet_last,0,1])
                 memo =  -np.ones((n + 1, total_utility + 1, total_utility + 1), dtype=np.float)
                 Ulast = bobs_expected_utility(nb_objet,nb_objet - nb_objet_last,V,memo)
-                partiel = copy.deepcopy(T[nb_agent-1,nb_objet - nb_objet_last])
-                social_welfare = partiel[0][1]
                 
-                social_welfare = min( Ulast, social_welfare)
-
-                if social_welfare > social_welfare_max:
-                    social_welfare_max = social_welfare
-                    argmax = nb_objet - nb_objet_last
-                    T[nb_agent][nb_objet] = partiel
-                    T[nb_agent][nb_objet][0][1] = social_welfare_max
-                    T[nb_agent][nb_objet][nb_agent][1] = Ulast
                 if Ulast > T[m-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
-                    break
+                    U_before = bobs_expected_utility(nb_objet,nb_objet - nb_objet_last +1,V,memo)
+                    if T[m-1,nb_objet - nb_objet_last,0,1] < min(U_before,T[m-1,nb_objet - nb_objet_last +1,0,1]):
+                        nb_objet_last -= 1
+                        Ulast = U_before
+                    social_welfare = min( Ulast, T[nb_agent-1,nb_objet - nb_objet_last][0][1])
+                    T[nb_agent][nb_objet] = copy.deepcopy(T[nb_agent-1,nb_objet - nb_objet_last])
+                    T[nb_agent][nb_objet][0][1] = social_welfare
+                    T[nb_agent][nb_objet][nb_agent][1] = Ulast
+                    
+                if Ulast > T[m-1,nb_objet - nb_objet_last,0,1]:   # car U(last) croissant strict et un des autres décroit strict aussi
+                    br
             
             T[nb_agent][nb_objet][nb_agent][0] = nb_objet
     #print(T)
     return T[m,n]
 
 #print(gen_egal(20,3,Lexico(20)))
-print(gen_egal(30,3,Borda(30)))
+print(gen_egal(50,7,Borda(50)))
