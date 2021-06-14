@@ -14,9 +14,7 @@ def subset_sum(n, k, target, V, memo=None):
     up to target.
     """
     if memo is None:
-        return subset_sum(n, k, target,V,
-                          [[[-1 for _ in range(target + 1)]
-                            for _ in range(k + 1)] for _ in range(n + 1)])
+        return subset_sum(n, k, target,V,np.full((target+1,k+1,n+1),-1))
     if k == 0:
         return int(target == 0)
     elif target <= 0 or n == 0: #target <= V[n] or n == 0:
@@ -110,4 +108,6 @@ def gen_egal(n,m,V):
     return T[m,n]
 
 #print(gen_egal(20,3,Lexico(20)))
-print(gen_egal(50,7,Borda(50)))
+m = 3
+n = 2
+print(gen_egal(m,n,Borda(m)))
