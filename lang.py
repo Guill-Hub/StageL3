@@ -48,7 +48,7 @@ def Borda(n):
 
 
 #m=4
-#print(E(3,1,4,Borda(4)))
+
 #print(F(1,0,1,m,Borda(m),np.full((m+1,m+1,m+1),-1.)))
 
 def algo_gen(n,m,V):
@@ -62,8 +62,8 @@ def algo_aux(i,k,n,m,V,T,M): #user i, k objets already selected, n users, m obje
     if M[k,n,0,0] == -1:
         M[k,n,0,0] = 0
         if n == 1 :
-            M[k,1,i,0] = len(V) - k
-            M[k,1,i,1] = sum(V[k:])/(m-k)
+            M[k,1,i,0] = m - k
+            M[k,1,i,1] = sum(V)* (1-k/m)
             M[k,1,0,1] = M[k,1,i,1]
             print("prout")
         else:
@@ -85,6 +85,8 @@ def algo_aux(i,k,n,m,V,T,M): #user i, k objets already selected, n users, m obje
         
     return M[k,n]
 
-m = 3
-print(algo_gen(2,m,Borda(m)))        
+m = 100
+n = 11
+print(algo_gen(n,m,Borda(m)))   
 
+#print(E(2,2,4,Borda(4),np.full((m+1,m+1,m+1),-1.)))
