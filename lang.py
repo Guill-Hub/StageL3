@@ -85,8 +85,46 @@ def algo_aux(i,k,n,m,V,T,M): #user i, k objets already selected, n users, m obje
         
     return M[k,n]
 
-m = 100
-n = 11
-print(algo_gen(n,m,Borda(m)))   
+m = 200
+n = 30
+#print(algo_gen(n,m,Borda(m)))   
 
-#print(E(2,2,4,Borda(4),np.full((m+1,m+1,m+1),-1.)))
+#print(E(200-11,11,m,Borda(m),np.full((m+1,m+1,m+1),-1.)))
+
+def algo_verif(i,k,n,m,V,T,M):
+    print(i,k,n,m)
+    
+    if M[k,n,0,0] == -1:
+        M[k,n,0,0] = 0
+        if n == 1 :
+            M[k,1,i,0] = m - k
+            M[k,1,i,1] = sum(V)* (1-k/m)
+            M[k,1,0,1] = M[k,1,i,1]
+            print("prout")
+        else:
+            
+            
+            U_max = 0
+            for t in range(1,m-k+1): # break à faire
+                U_first = E(k,t,m,V,T)
+                partiel = copy.deepcopy(algo_verif(i+1,k+t,n-1,m,V,T,M))
+                min_U = min(partiel[0][1],U_first)
+                print(U_max,min_U,t,i)
+
+                if min_U > U_max:
+                    M[k,n] = partiel
+                    M[k,n,0,1] = min_U
+                    M[k,n,i,0] = t # nombre d'objets, k+t pour savoir où couper
+                    M[k,n,i,1] = U_first
+                    U_max = min_U
+                    print("WHOLOLO")
+                        
+        
+    return M[k,n]
+
+def var(n,m,V):
+    T = np.full((m+1,m+1,m+1),-1.)
+    M = np.full((m+1,n+1,n+1,2),-1.)
+    return algo_verif(1,0,n,m,V,T,M)
+
+print(algo_gen(n,m,Borda(m)))   
