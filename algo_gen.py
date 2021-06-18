@@ -108,6 +108,6 @@ def gen_egal(n,m,V):
     return T[m,n]
 
 #print(gen_egal(20,3,Lexico(20)))
-m = 10
+m = 4
 n = 3
 print(gen_egal(m,n,Borda(m)))
