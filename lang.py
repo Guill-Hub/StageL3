@@ -12,10 +12,10 @@ def Borda(n):
     return [ n - i + 1 for i in range(1,n+1)] # !!! attention pas ce premier el nul comme pour les autres
 
 
-m = 30
+m = 500
 n = 7
 V = Borda(m)
-p = 10000
+p = 100
 
 
 def E(i,j,m,V,p,Em):
@@ -94,7 +94,7 @@ def aux(i,j,n,m,V,M,Em):
                     if min( aux(nb_object-1,j+1,n-1,m,V,M,Em)[0][1] ,S - E(i,nb_object,m,V,p,Em) ) > aux(nb_object,j+1,n-1,m,V,M,Em)[0][1]:
                         #print(S)
                         S -= E(i,nb_object,m,V,p,Em)
-                        print(S)
+                        #print(S)
                         nb_object -= 1
                     M[i,n] = aux(nb_object,j+1,n-1,m,V,M,Em)
                     M[i,n,j,0] = nb_object
