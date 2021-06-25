@@ -9,16 +9,16 @@ import matplotlib.cm as cm
 def Borda(n):
     return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
 
-m = 100
-n = 14
+m = 30
+n = 7
 V = Borda(m)
 k = 3
 
 egalitatrian = min
 utilitarian = lambda x,y : x + y
-nash = lambda x,y : x + y
+nash = lambda x,y : x * y
 
-def F(i,k,t,m,V,T):
+def G(i,k,t,m,V,T):
     #print(i,k,t) 
     """
     Sans perte de généralité on considère que l'agent classe les objets dans l'ordre 1...n.
@@ -42,7 +42,7 @@ def F(i,k,t,m,V,T):
             return 0
         
         else:           
-            T[i,k,t] = k/(m+1-i) * F(i+1,k-1,t,m,V,T) + (1 - k/(m+1-i)) * ( V[i] + F(i+1,k,t-1,m,V,T))
+            T[i,k,t] = k/(m+1-i) * G(i+1,k-1,t,m,V,T) + (1 - k/(m+1-i)) * ( V[i] + G(i+1,k,t-1,m,V,T))
         
     #print(i,k,t,T[i,k,t])
     return T[i,k,t]
@@ -54,7 +54,7 @@ def E(k,t,m,V,T):
     For m objets and the vector score V
     """
     #T = np.full((m+1,m+1,m+1),-1.)
-    return F(1,k,t,m,V,T)
+    return G(1,k,t,m,V,T)
 
 T = np.full((m+1,m+1,m+1),-1.)
 print(E(k,m-k,m,V,T)) # pour comparer avec sylvain.py
@@ -103,7 +103,11 @@ print(algo_gen(n,m,Borda(m)))
 
 #print(E(200-11,11,m,Borda(m),np.full((m+1,m+1,m+1),-1.)))
 
-def algo_verif(i,k,n,m,V,T,M):
+
+
+# Je ne peux plus utiliser le fait que dès que le min_U < U_fist il y a bascule car rien n'implique que ça reste vrai avec le + et le *,du coup je dois faire une exploration
+
+def algo_verif(i,k,n,m,V,T,M,F):
     #print(i,k,n,m)
     
     if M[k,n,0,0] == -1:
@@ -117,10 +121,10 @@ def algo_verif(i,k,n,m,V,T,M):
             
             
             U_max = 0
-            for t in range(1,m-k+1): # break à faire
+            for t in range(1,m-k+1): 
                 U_first = E(k,t,m,V,T)
-                partiel = copy.deepcopy(algo_verif(i+1,k+t,n-1,m,V,T,M))
-                min_U = min(partiel[0][1],U_first)
+                partiel = copy.deepcopy(algo_verif(i+1,k+t,n-1,m,V,T,M,F))
+                min_U = F(partiel[0][1],U_first)
                 #print(U_max,min_U,t,i)
 
                 if min_U > U_max:
@@ -134,9 +138,16 @@ def algo_verif(i,k,n,m,V,T,M):
         
     return M[k,n]
 
-def var(n,m,V):
+def var(n,m,V,F):
     T = np.full((m+1,m+1,m+1),-1.)
     M = np.full((m+1,n+1,n+1,2),-1.)
-    return algo_verif(1,0,n,m,V,T,M)
+    return algo_verif(1,0,n,m,V,T,M,F)
 
-
+np.set_printoptions(precision=3)
+np.set_printoptions(suppress=True)
+print(var(n,m,Borda(m),utilitarian))
+np.set_printoptions(precision=6)
+np.set_printoptions(suppress=True)
+print(var(n,m,Borda(m),nash))
+np.set_printoptions(precision=3)
+np.set_printoptions(suppress=True)
