@@ -9,14 +9,20 @@ import matplotlib.cm as cm
 def Borda(n):
     return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
 
-m = 30
-n = 7
+m = 111
+n = 11
 V = Borda(m)
 k = 3
 
 egalitatrian = min
-utilitarian = lambda x,y : x + y
-nash = lambda x,y : x * y
+#utilitarian = lambda x,y : x + y   les lambdas ne se plot pas bien après
+#nash = lambda x,y : x * y
+
+def utilitarian(x,y):
+    return x + y
+
+def nash(x,y):
+    x * y
 
 def G(i,k,t,m,V,T):
     #print(i,k,t) 
@@ -145,9 +151,9 @@ def var(n,m,V,F):
 
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
-print(var(n,m,Borda(m),utilitarian))
+print(var(n,m,Borda(m),egalitatrian))
 np.set_printoptions(precision=6)
 np.set_printoptions(suppress=True)
-print(var(n,m,Borda(m),nash))
+#print(var(n,m,Borda(m),nash))
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)

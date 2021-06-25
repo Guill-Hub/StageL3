@@ -97,14 +97,16 @@ def quick_plot_mn(n,m,S):
     plt.ylabel("(max(U)-min(U)/max(U))")
 
     plt.show()
-    
-def plot_chaque(n,m,S):
+ 
+ 
+ 
+def plot_chaque(n,m,S,F):
     N = [ i for i in range(n,m)]
     X = [ [] for i in range(n+1)]
     for nb_objet in range(n,m):
         V = S(nb_objet)
-        val = algo_gen(n,nb_objet,V)
-        #print(nb_objet,val)
+        val = var(n,nb_objet,V,F)
+        print(nb_objet,val)
         for agent in range(1,n+1):
             X[agent].append(val[agent][1])
     for agent in range(1,n+1):
@@ -113,15 +115,32 @@ def plot_chaque(n,m,S):
     plt.title("Partage entre " + str(n) + " agents pour m de "+ str(n) + " à " + str(m))
     plt.show()
 
+
+ 
+def plot_chaque_norm(n,m,S,F):
+    N = [ i for i in range(n,m)]
+    X = [ [] for i in range(n+1)]
+    for nb_objet in range(n,m):
+        V = S(nb_objet)
+        val = var(n,nb_objet,V,F)
+        print(nb_objet,val)
+        for agent in range(1,n+1):
+            X[agent].append(val[agent][1]/U_max(val))
+    for agent in range(1,n+1):
+                  plt.plot(N,X[agent], label = "agent " + str(agent), color=cm.rainbow(agent/n))
+    plt.legend()
+    plt.title("Partage entre " + str(n) + " agents pour m de "+ str(n) + " à " + str(m) + ", normalisé par le max des utilités, avec un vecteur de score de " + S.__name__ + " pour le critère " + F.__name__)
+    plt.show()
+
 def Borda(n):
     return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
 
-m = 100
-n = 5
+m = 111
+n = 11
 V = Borda(m)
 
-#plot_chaque(n,m,Borda)
+plot_chaque_norm(n,m,Borda,utilitarian)
 #plot_fm(n,m,Borda)
 #plot_fn(n,m,V)
 #plot_fnm(n,m,Borda)
-quick_plot_mn(n,m,Borda) 
+#quick_plot_mn(n,m,Borda) 
