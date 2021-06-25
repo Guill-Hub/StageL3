@@ -6,6 +6,18 @@ from algo_gen import *
 
 import matplotlib.cm as cm
 
+def Borda(n):
+    return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
+
+m = 100
+n = 14
+V = Borda(m)
+k = 3
+
+egalitatrian = min
+utilitarian = lambda x,y : x + y
+nash = lambda x,y : x + y
+
 def F(i,k,t,m,V,T):
     #print(i,k,t) 
     """
@@ -44,9 +56,9 @@ def E(k,t,m,V,T):
     #T = np.full((m+1,m+1,m+1),-1.)
     return F(1,k,t,m,V,T)
 
+T = np.full((m+1,m+1,m+1),-1.)
+print(E(k,m-k,m,V,T)) # pour comparer avec sylvain.py
 
-def Borda(n):
-    return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
 
 
 #m=4
@@ -86,10 +98,8 @@ def algo_aux(i,k,n,m,V,T,M): #user i, k objets already selected, n users, m obje
         
     return M[k,n]
 
-m = 100
-n = 5
-V = Borda(m)
-#print(algo_gen(n,m,Borda(m)))   
+
+print(algo_gen(n,m,Borda(m)))   
 
 #print(E(200-11,11,m,Borda(m),np.full((m+1,m+1,m+1),-1.)))
 
@@ -129,9 +139,4 @@ def var(n,m,V):
     M = np.full((m+1,n+1,n+1,2),-1.)
     return algo_verif(1,0,n,m,V,T,M)
 
-def U_max(T):
-    maxi = 0
-    for e in [ el[1] for el in T ]:
-        maxi = max(maxi,e)
-    return maxi
 
