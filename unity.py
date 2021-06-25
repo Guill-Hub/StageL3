@@ -1,9 +1,24 @@
 from hugo import *
-from algo_gen import *
+from sylvain import *
 
 eps = 000.1
 
+m = 100
+n = 7
+V = Borda(m)
+p = 100
+k = 3
 
+def pretest(m,k):
+    for i in range(k+1,m):
+        V = Borda(i)
+        T = np.full((i+1,i+1,i+1),-1.)
+        print(i)
+        if abs(compute_last_utility(i, k,V) -  E(k,i-k,i,V,T)) > 0.1 :
+            return i
+
+
+"""
 def test(n,m):
     for i in range(2,n):
         for j in range(i,m):
@@ -18,3 +33,5 @@ def test(n,m):
             
 
 print(test(30,20))
+"""
+print(pretest(m,k))

@@ -6,6 +6,12 @@ import copy
 
 import matplotlib.cm as cm
 
+def U_max(T):
+    maxi = 0
+    for e in [ el[1] for el in T ]:
+        maxi = max(maxi,e)
+    return maxi
+
 
 def plot_fm(n,m,S):
     #fair un plot f(n) tq max_min / min ou max en fait mdr pour voir les bornes

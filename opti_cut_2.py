@@ -5,13 +5,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import copy
 
-
+a = 0
+b = 0
+c = 0
 def subset_sum(n, k, target, memo=None):
     """
     Computes (and returns) the number of possibilities
     of taking k different integers between 1 and n who sum
     up to target.
     """
+    global a,b,c
     if memo is None:
         return subset_sum(n, k, target,
                           [[[-1 for _ in range(target + 1)]
@@ -24,8 +27,18 @@ def subset_sum(n, k, target, memo=None):
         memo[n][k][target] = (
             subset_sum(n - 1, k - 1, target - n, memo) +
             subset_sum(n - 1, k, target, memo))
+        
+        if memo[n][k][target] == 0:
+            a +=1
+        else:
+            b += 1
+    c += 1
     return memo[n][k][target]
 
+
+
+n = 30
+k = 3
 
 def bobs_expected_utility(n, k, memo=None):
     """
@@ -38,7 +51,9 @@ def bobs_expected_utility(n, k, memo=None):
     return sum((total_utility - picked) * subset_sum(n, k, picked, memo)
                for picked in range(min_picked, max_picked + 1)) * factorial(k) * factorial(n - k) / factorial(n)
 
-        
+
+print(bobs_expected_utility(n,k))
+                            
 def optimal_egalitarian_cut(n):
     """
     Computes (and returns) the optimal cut for n object. In other words,
@@ -258,4 +273,6 @@ def plot_opti_n(n,m):
 #print(opti(4,3))
 
 #incrémentale
-print(optimal_egalitarian_cut(50))
+#print(opti(30,5))
+#print(a,b,a/(a+b))
+#print(c/(a+b+c))
