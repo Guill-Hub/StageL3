@@ -9,12 +9,12 @@ import matplotlib.cm as cm
 def Borda(n):
     return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
 
-m = 111
-n = 11
+m = 50
+n = 2
 V = Borda(m)
 k = 3
 
-egalitatrian = min
+egalitarian = min
 #utilitarian = lambda x,y : x + y   les lambdas ne se plot pas bien après
 #nash = lambda x,y : x * y
 
@@ -22,7 +22,7 @@ def utilitarian(x,y):
     return x + y
 
 def nash(x,y):
-    x * y
+    return x * y
 
 def G(i,k,t,m,V,T):
     #print(i,k,t) 
@@ -42,7 +42,6 @@ def G(i,k,t,m,V,T):
         if k == 0:
             for j in range(t):
                 T[i,k,t] += V[i+j]
-            #T[i,k,t] /= (m+1-i)
         
         elif t == 0:
             return 0
@@ -63,7 +62,7 @@ def E(k,t,m,V,T):
     return G(1,k,t,m,V,T)
 
 T = np.full((m+1,m+1,m+1),-1.)
-print(E(k,m-k,m,V,T)) # pour comparer avec sylvain.py
+#print(E(k,m-k,m,V,T)) # pour comparer avec sylvain.py
 
 
 
@@ -105,7 +104,7 @@ def algo_aux(i,k,n,m,V,T,M): #user i, k objets already selected, n users, m obje
     return M[k,n]
 
 
-print(algo_gen(n,m,Borda(m)))   
+#print(algo_gen(n,m,Borda(m)))   
 
 #print(E(200-11,11,m,Borda(m),np.full((m+1,m+1,m+1),-1.)))
 
@@ -114,7 +113,6 @@ print(algo_gen(n,m,Borda(m)))
 # Je ne peux plus utiliser le fait que dès que le min_U < U_fist il y a bascule car rien n'implique que ça reste vrai avec le + et le *,du coup je dois faire une exploration
 
 def algo_verif(i,k,n,m,V,T,M,F):
-    #print(i,k,n,m)
     
     if M[k,n,0,0] == -1:
         M[k,n,0,0] = 0
@@ -151,7 +149,7 @@ def var(n,m,V,F):
 
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
-print(var(n,m,Borda(m),egalitatrian))
+#print(var(n,m,Borda(m),egalitarian))
 np.set_printoptions(precision=6)
 np.set_printoptions(suppress=True)
 #print(var(n,m,Borda(m),nash))
