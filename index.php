@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <html>
   <head>
-    <title>Live Demo: Assign taste and Share Rent - Spliddit</title>
+    <title>Live Demo: Assign selec_taste and Share Rent - Spliddit</title>
     <link href="application-3f30be57b6c118e639cf350d34fb118c.css" media="all" rel="stylesheet" type="text/css" />
 
     <script src="application-4fd66bbc1d249312453de646bbc94e92.js" type="text/javascript"></script>
@@ -20,7 +20,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="description" content="Spliddit&#x27;s rent calculator helps roommates to assign taste and share rent when moving into a new house or apartment. With the live demo, you can experiment with the calculator and view the results on a single screen in a matter of seconds.">
+    <meta name="description" content="Spliddit&#x27;s rent calculator helps roommates to assign selec_taste and share rent when moving into a new house or apartment. With the live demo, you can experiment with the calculator and view the results on a single screen in a matter of seconds.">
     <meta name="viewport" content="width=device-width">
     <link href="/assets/favicon-095b13468d95e2fa09239289e51417ba.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
     <script type="text/javascript">
@@ -37,10 +37,18 @@ function randomize(tab) {
     return tab;
 }
 
-
+var taste = [" Kiwi" ," Litchi", "Mange", "Mandarine", "Melon", "Mirabelle", "Mûre", "Myrtille", "Orange", "Orange sanguine","Abricot","Ananas","Banane","Citron", "Citron Vert", "Cerise", "Cassis" , "Cassis" , "Framboise", "Coco", "Figue", "Fraise", "Fruit de la passion", "Poire", "Rhubarbe", "Pamplemousse"]
+taste = randomize(taste)
 var housemates = ["user"];
-var nb_taste = 7
-var taste = ["Master Bedroom", "Basement", "2nd Floor"];
+var nb_selec_taste = 7
+var selec_taste = [];
+var i;
+for (i = 0; i < nb_selec_taste; i++){
+    selec_taste.push(taste[i]);
+}
+
+console.log(selec_taste)
+
 var rent = 100;
 var sum = [0, 0, 0];
 var polling_attempts = -1;
@@ -57,64 +65,7 @@ $(document).ready(function() {
   createBiddingSections();
 });
 
-function validateUpdateForm() {
-  var error;
-  var new_housemates = $('#housemates').val().split(",");
-  var new_taste = $('#taste').val().split(",");
 
-  var new_rent = $('#rent').val();
-  if ($.isNumeric(new_rent)) {
-    new_rent = parseInt(new_rent);
-    if (new_rent < 10 || new_rent > 1000000) {
-      displayError("The rent must be between $10 and $1000000.", "basics-error");
-      return false;      
-    }
-  } else {
-    displayError("The rent must be between $10 and $1000000.", "basics-error");
-    return false;
-  }
-  rent = new_rent;
-
-  var n = new_housemates.length;
-  if (n != new_taste.length) {
-    displayError("The number of roommates and taste must be equal.", "basics-error");
-    return false;
-  }
-  if (n < 2 || n > 8) {
-    displayError("The demo only allows between 2 and 8 roommates.", "basics-error");
-    return false;
-  }
-  var i;
-  for (i = 0; i < n; i++) {
-    new_housemates[i] = $.trim(new_housemates[i]).substring(0, 20);
-    if (new_housemates[i].length == 0) {
-      displayError("We were unable to parse the roommates list. Please check the field for stray commas.", "basics-error");
-      return false;
-    }
-  }
-  for (i = 0; i < n; i++) {
-    new_taste[i] = $.trim(new_taste[i]).substring(0, 20);
-    if (new_taste[i].length == 0) {
-      displayError("We were unable to parse the taste list. Please check the field for stray commas.", "basics-error");
-      return false;
-    }
-  }
-  
-  if (containsDuplicates(new_housemates)) {
-    displayError("Please ensure all roommate names are unique.", "basics-error");
-    return false;
-  }
-  if (containsDuplicates(new_taste)) {
-    displayError("Please ensure all room names are unique.", "basics-error");
-    return false;
-  }
-  housemates = new_housemates;
-  taste = new_taste;
-  createBiddingSections();
-  advanceAccordion($('#basics'));
-  $("#basics-error").text("");
-  return true;
-}
 
 function displayError(msg, id) {
   var element = $("#"+id);
@@ -129,32 +80,27 @@ function displayError(msg, id) {
 }
 
 function createBiddingSections() {
-  var bidding_text = "use the sliders or textboxes to place values on each room. Think of these values as bids: you will never pay more than what you bid, and in most cases you will pay less. However, your values must sum to the total monthly rent: $" + rent + ". You can use the <em>rescale</em> button to automatically adjust your values to add up to the rent."
+  var bidding_text = "Sur une échelle de 0 à " + rent + " 100 à quel point serez-vous heureux d'obtenir une boule de glace d'un parfum donné. Il faut ensuite normaliser ces valeurs avec le bonton rescale"
   var housemates_copy = housemates;
   var bidding_sections = new Array();
   var html = "";
-  var i;
-  for (i=0; i < housemates.length; i++) {
-    html += "<div class = 'accordion accordion-bidding' id = 'bidding_" + i + "'>";
-    html +=     housemates[i] + "'s Evaluations <span class = 'symbol'></span>";
-    html += "</div>";
-    html += "<div class = 'accordion-container accordion-bidding'>";
-    html += "  <div class = 'accordion-content'>";
-    html += "    <p><strong>" + housemates[i] + ", </strong>" + bidding_text + "</p>";
+  var i = 0;
+    html += "  <div>";
+    html += "    <p>" + bidding_text + "</p>";
     html += "    <p id='bidding-error-" + i + "' class='error-msg error-text'></p>";
     html += "    <div class='range-calc'>";
     html += "      <div class='calculations'>";
     var j;
-    for (j=0; j < taste.length; j++) {
+    for (j=0; j < selec_taste.length; j++) {
       html += "      <div class='calc-row'>";
       html += "        <div class='name'>";
-      html += "          <p>" + taste[j] + "</p>";
+      html += "          <p>" + selec_taste[j] + "</p>";
       html += "        </div>";
       html += "        <div class='nstSlider range nstSlider" + i + "' data-range_min='0' data-range_max='" + rent + "' data-cur_min='0' data-id='" + i + "'>";
       html += "          <div class='leftGrip'></div>";
       html += "        </div>";
       html += "        <span class='calc-value'>";
-      html += "          $<input type='text' data-id='" + i + "' id='values_" + i + "_" + j + "' name='values[" + i + "][" + j + "]' class='valuation_ipt leftLabel cost valuation_ipt"+i+"'>.00"
+      html += "          <input type='text' data-id='" + i + "' id='values_" + i + "_" + j + "' name='values[" + i + "][" + j + "]' class='valuation_ipt leftLabel cost valuation_ipt"+i+"'>"
       html += "        </span>";
       html += "      </div>";
     }
@@ -165,15 +111,13 @@ function createBiddingSections() {
     html += "            <button type='button' class='btn update' onclick='return checkSliders(" + i + ")'>Continue</button>";
     html += "          </div>";
     html += "          <div class='totals'>";
-    html += "            <p><strong>Current Total:</strong> $<span id = 'sum-" + i + "'>0</span></p>";
-    html += "            <p><strong>Target:</strong> $" + rent + "</p>";
+    html += "            <p><strong>Current Total:</strong> <span id = 'sum-" + i + "'>0</span></p>";
+    html += "            <p><strong>Target:</strong> " + rent + "</p>";
     html += "          </div>";
     html += "        </div>";
     html += "      </div>";
     html += "    </div>";
     html += "  </div>";
-    html += "</div>";
-  }
   $('.accordion-bidding').remove();
   $("#basics").after(html);
 
@@ -273,7 +217,7 @@ function checkSliders(i) {
     $("#bidding_"+i).append("<span class='white-check'>&#10003;</span>");
     return true;
   } else {
-    displayError("Please make sure your evaluations add to $" + rent + ".", "bidding-error-"+i);
+    displayError("Please make sure your evaluations add to " + rent + ".", "bidding-error-"+i);
     return false;
   }
 }
@@ -328,16 +272,13 @@ function checkBids() {
 function buildJSON() {
   var json = {}
   json['rent'] = rent;
-  json['housemates'] = housemates;
-  json['taste'] = taste;
+  json['selec_taste'] = selec_taste;
   json['bids'] = {};
-  for (var i = 0; i < housemates.length; i++) {
-    json['bids'][housemates[i]] = {};
-    for (var j = 0; j < taste.length; j++) {
-      value = parseInt($('#values_'+i+'_'+j).val(), 10);
-      json['bids'][housemates[i]][taste[j]] = value;      
+  for (var j = 0; j < nb_selec_taste; j++) {
+      value = parseInt($('#values_'+0+'_'+j).val(), 10);
+      json['bids'][selec_taste[j]] = value;      
     }
-  }
+    console.log(json)
   return json;
 }
 
@@ -351,12 +292,17 @@ function pollResults() {
   <body>
 
 
-
+<style>
+    .site{
+        padding: 0.2em
+    }
+</style>
 <div class="site">
 
 
 
 <div class="page-content">
+    <p id='bidding-error-" + i + "' class='error-msg error-text'></p>
     <div class="wrap" id="basics">
        
     </div>
