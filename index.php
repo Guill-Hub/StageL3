@@ -215,7 +215,7 @@ function checkSliders(i) {
     advanceAccordion($('#bidding_'+i));
     $("#bidding-error-"+i).text("");
     $("#bidding_"+i).append("<span class='white-check'>&#10003;</span>");
-    return true;
+    return checkBids();
   } else {
     displayError("Please make sure your evaluations add to " + rent + ".", "bidding-error-"+i);
     return false;
@@ -258,7 +258,7 @@ function checkBids() {
     $('#submit-demo').hide();
     $.ajax({
       type: "POST",
-      url: "../../../demo/create",
+      url: "recup.php",
       data: { app: "rent", input: buildJSON() }
     }).fail(function() {
       $('#update-results-msg').text("We encountered an internal server error. Sorry for the inconvenience.");
