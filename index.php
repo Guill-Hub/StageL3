@@ -47,6 +47,7 @@ for (i = 0; i < nb_selec_taste; i++){
     selec_taste.push(taste[i]);
 }
 
+
 console.log(selec_taste)
 
 var rent = 100;
@@ -265,8 +266,8 @@ function checkBids() {
     $('#results-table').html('');
     $('#fairness-table').html('');
     $('#submit-demo').hide();
+    displayError("Votre participation a bien été prise en compte, merci","bidding-error-0");
     json = buildJSON();
-    <?php file_put_contents('donnees.json', json); ?> 
     $.ajax({
       type: "POST",
       url: "recup.php",
@@ -275,6 +276,7 @@ function checkBids() {
       $('#update-results-msg').text("We encountered an internal server error. Sorry for the inconvenience.");
       $('#submit-demo').show();
     });
+    resetSliders(0)
   } else {
     displayError("Some participants haven't entered their evaluations, or have errors (checkmarks indicate those who have successfully entered their evaluations). Once everyone is done, press the submit button again.", "update-results-msg");
   }
