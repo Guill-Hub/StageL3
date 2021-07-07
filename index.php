@@ -98,7 +98,7 @@ function createBiddingSections() {
     html += "    <div class='range-calc'>";
     html += "      <div class='calculations'>";
     var j;
-    for (j=0; j < selec_taste.length; j++) {
+    for (j=0; j < nb_selec_taste; j++) {
       html += "      <div class='calc-row'>";
       html += "        <div class='name'>";
       html += "          <p>" + selec_taste[j] + "</p>";
@@ -107,7 +107,7 @@ function createBiddingSections() {
       html += "          <div class='leftGrip'></div>";
       html += "        </div>";
       html += "        <span class='calc-value'>";
-      html += "          <input type='text' data-id='" + i + "' id='values_" + i + "_" + j + "' name='values[" + j + "]' class='valuation_ipt leftLabel cost valuation_ipt"+i+"'>"
+      html += "          <input type='text' data-id='" + i + "' id='values_" + i + "_" + j + "' name= '" + selec_taste[j] + "' class='valuation_ipt leftLabel cost valuation_ipt"+i+"'>";
       html += "        </span>";
       html += "      </div>";
     }
@@ -116,7 +116,7 @@ function createBiddingSections() {
     html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Reset</button>";
     html += "            <button type='button' class='btn update' onclick='return updateSliders(" + i + ")'>Rescale</button>";
     html += "            <button type='button' class='btn update' onclick='return checkSliders(" + i + ")'>Submit</button>";
-    html += "            <input type=\"submit\" class='btn update' value=\"Valider\" />";
+   // html += "            <input type=\"submit\" class='btn update' value=\"Valider\" />";
     html += "          </div>";
     html += "          <div class='totals'>";
     html += "            <p><strong>Current Total:</strong> <span id = 'sum-" + i + "'>0</span></p>";
@@ -265,12 +265,12 @@ function checkBids() {
     $('#results-table').html('');
     $('#fairness-table').html('');
     $('#submit-demo').hide();
-    json = buildJSON()
-    <?php file_put_contents('donnees.json', json); ?>
+    json = buildJSON();
+    <?php file_put_contents('donnees.json', json); ?> 
     $.ajax({
       type: "POST",
       url: "recup.php",
-      data: { app: "rent", input: json }
+      data: {input: json }
     }).fail(function() {
       $('#update-results-msg').text("We encountered an internal server error. Sorry for the inconvenience.");
       $('#submit-demo').show();
@@ -282,13 +282,11 @@ function checkBids() {
 
 function buildJSON() {
   var json = {}
-  json['selec_taste'] = selec_taste;
-  json['bids'] = {};
+  // json['selec_taste'] = selec_taste;
   for (var j = 0; j < nb_selec_taste; j++) {
       value = parseInt($('#values_'+0+'_'+j).val(), 10);
-      json['bids'][selec_taste[j]] = value;      
+      json[selec_taste[j]] = value;      
     }
-    console.log(json)
   return json;
 }
 
