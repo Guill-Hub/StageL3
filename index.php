@@ -41,12 +41,8 @@ var taste = ["Kiwi" ,"Litchi", "Mangue", "Mandarine", "Melon", "Mirabelle", "Mû
 taste = randomize(taste)
 var housemates = ["user"];
 var nb_selec_taste = 7
-var selec_taste = [];
-var i;
-for (i = 0; i < nb_selec_taste; i++){
-    selec_taste.push(taste[i]);
-}
-
+var selec_taste = selecTaste(taste)
+var nb_attempt = 0;
 
 console.log(selec_taste)
 
@@ -56,6 +52,17 @@ var polling_attempts = -1;
 var max_attempts = 15;
 var id = -1;
 var pwd = "";
+
+
+function selecTaste(taste){
+    taste = randomize(taste)
+    var selec_taste = [];
+    var i;
+    for (i = 0; i < nb_selec_taste; i++){
+        selec_taste.push(taste[i]);
+    }
+    return selec_taste
+}
 
 $(document).ready(function() {
   $.ajaxSetup({
@@ -93,7 +100,7 @@ function createBiddingSections() {
   var html = "";
   var i = 0;
     html += " <form method=\"post\" action=\"recup.php\">";
-    html += "  <div>";
+    html += "  <div id ='essai-" + nb_attempt + "'>";
     html += "    <p>" + bidding_text + "</p>";
     html += "    <p id='bidding-error-" + i + "' class='error-msg error-text'></p>";
     html += "    <div class='range-calc'>";
@@ -276,7 +283,16 @@ function checkBids() {
       $('#update-results-msg').text("We encountered an internal server error. Sorry for the inconvenience.");
       $('#submit-demo').show();
     });
-    resetSliders(0)
+    setTimeout(function (){
+
+  $('#essai-' + nb_attempt).remove();
+    nb_attempt += 1;
+    selec_taste = selecTaste(taste);
+    createBiddingSections();
+
+}, 1500)
+    
+    
   } else {
     displayError("Some participants haven't entered their evaluations, or have errors (checkmarks indicate those who have successfully entered their evaluations). Once everyone is done, press the submit button again.", "update-results-msg");
   }
