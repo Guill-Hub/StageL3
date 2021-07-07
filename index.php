@@ -37,7 +37,7 @@ function randomize(tab) {
     return tab;
 }
 
-var taste = [" Kiwi" ," Litchi", "Mange", "Mandarine", "Melon", "Mirabelle", "Mûre", "Myrtille", "Orange", "Orange sanguine","Abricot","Ananas","Banane","Citron", "Citron Vert", "Cerise", "Cassis" , "Cassis" , "Framboise", "Coco", "Figue", "Fraise", "Fruit de la passion", "Poire", "Rhubarbe", "Pamplemousse"]
+var taste = ["Kiwi" ,"Litchi", "Mangue", "Mandarine", "Melon", "Mirabelle", "Mûre", "Myrtille", "Orange", "Orange sanguine","Abricot","Ananas","Banane","Citron", "Citron Vert", "Cerise", "Cassis" , "Cassis" , "Framboise", "Coco", "Figue", "Fraise", "Fruit de la passion", "Poire", "Rhubarbe", "Pamplemousse"]
 taste = randomize(taste)
 var housemates = ["user"];
 var nb_selec_taste = 7
@@ -80,11 +80,18 @@ function displayError(msg, id) {
 }
 
 function createBiddingSections() {
-  var bidding_text = "Sur une échelle de 0 à " + rent + " 100 à quel point serez-vous heureux d'obtenir une boule de glace d'un parfum donné. Il faut ensuite normaliser ces valeurs avec le bonton rescale"
+/*
+  var bidding_text = "Quel est votre pref/pire, pire vaut 0, meilleur vaut 100, classer les autres par rapport à cet échelle :
+        50 à citron  c'est à peu près pareil que avoir une boule de citron ou avoir avec une chance sur deux avoir une boule de chocolat ou une chance sur deux de cerise"
+    var bidding_text2 = "On doit élire le meilleur parfum : 100 point à répartir comment vous les répartissez ?" il faut expliquer comment le gagnant est calculé
+  */
+  var bidding_text = "Sur une échelle de 0 à " + rent + " à quel point serez-vous heureux d'obtenir une boule de glace d'un parfum donné. Il faut ensuite normaliser ces valeurs avec le bonton rescale"
+
   var housemates_copy = housemates;
   var bidding_sections = new Array();
   var html = "";
   var i = 0;
+    html += " <form method=\"post\" action=\"recup.php\">";
     html += "  <div>";
     html += "    <p>" + bidding_text + "</p>";
     html += "    <p id='bidding-error-" + i + "' class='error-msg error-text'></p>";
@@ -100,7 +107,7 @@ function createBiddingSections() {
       html += "          <div class='leftGrip'></div>";
       html += "        </div>";
       html += "        <span class='calc-value'>";
-      html += "          <input type='text' data-id='" + i + "' id='values_" + i + "_" + j + "' name='values[" + i + "][" + j + "]' class='valuation_ipt leftLabel cost valuation_ipt"+i+"'>"
+      html += "          <input type='text' data-id='" + i + "' id='values_" + i + "_" + j + "' name='values[" + j + "]' class='valuation_ipt leftLabel cost valuation_ipt"+i+"'>"
       html += "        </span>";
       html += "      </div>";
     }
@@ -108,7 +115,8 @@ function createBiddingSections() {
     html += "          <div class='btns'>";
     html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Reset</button>";
     html += "            <button type='button' class='btn update' onclick='return updateSliders(" + i + ")'>Rescale</button>";
-    html += "            <button type='button' class='btn update' onclick='return checkSliders(" + i + ")'>Continue</button>";
+    html += "            <button type='button' class='btn update' onclick='return checkSliders(" + i + ")'>Submit</button>";
+    html += "            <input type=\"submit\" class='btn update' value=\"Valider\" />";
     html += "          </div>";
     html += "          <div class='totals'>";
     html += "            <p><strong>Current Total:</strong> <span id = 'sum-" + i + "'>0</span></p>";
@@ -118,6 +126,7 @@ function createBiddingSections() {
     html += "      </div>";
     html += "    </div>";
     html += "  </div>";
+    html += " </form>";
   $('.accordion-bidding').remove();
   $("#basics").after(html);
 
@@ -256,10 +265,12 @@ function checkBids() {
     $('#results-table').html('');
     $('#fairness-table').html('');
     $('#submit-demo').hide();
+    json = buildJSON()
+    <?php file_put_contents('donnees.json', json); ?>
     $.ajax({
       type: "POST",
       url: "recup.php",
-      data: { app: "rent", input: buildJSON() }
+      data: { app: "rent", input: json }
     }).fail(function() {
       $('#update-results-msg').text("We encountered an internal server error. Sorry for the inconvenience.");
       $('#submit-demo').show();
@@ -271,7 +282,6 @@ function checkBids() {
 
 function buildJSON() {
   var json = {}
-  json['rent'] = rent;
   json['selec_taste'] = selec_taste;
   json['bids'] = {};
   for (var j = 0; j < nb_selec_taste; j++) {
@@ -294,7 +304,7 @@ function pollResults() {
 
 <style>
     .site{
-        padding: 0.2em
+        padding: 0.5em
     }
 </style>
 <div class="site">
