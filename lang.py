@@ -44,7 +44,7 @@ def T(i,m,V):
     return one of the attempt of what an user could take if he start choosing after the i th object
     """
     
-    return np.array( [0 for i in range(i)] + sorted(sample(V,m-i),reverse = True)) # suremet un moyen plus intéligent de faire ça
+    return np.array( [0 for i in range(i)] + sorted(sample(V,m-i),reverse = True)) # surement un moyen plus intelligent de faire ça
 
 
 

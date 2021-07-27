@@ -93,8 +93,9 @@ function createBiddingSections() {
         50 à citron  c'est à peu près pareil que avoir une boule de citron ou avoir avec une chance sur deux avoir une boule de chocolat ou une chance sur deux de cerise"
     var bidding_text2 = "On doit élire le meilleur parfum : 100 point à répartir comment vous les répartissez ?" il faut expliquer comment le gagnant est calculé
   */
-  var bidding_text = "Sur une échelle de 0 à " + rent + " à quel point serez-vous heureux d'obtenir une boule de glace d'un parfum donné. Il faut ensuite normaliser ces valeurs avec le bonton rescale"
-
+  var bidding_text = "Sur une échelle de 0 à 100 à quel point serez-vous heureux d'obtenir une boule de glace d'un parfum donné en sachant que votre parfum préféré vaut 100 et votre pire 0. Il faut ensuite normaliser ces valeurs avec le bouton normaliser afin de n'octroyer que 100 jetons au total";
+  var bidding_text = "En considérant que votre parfum préféré vaut 100 et votre pire vaut 0, classez les autres en considérant le fait que vous octroyez x points à un parfum s'il vous ai égal d'avoir ce parfum que d'avoir x % de chance d'avoir votre parfum préféré sinon votre pire.<br>Par exemple si je mets 50 sur citron c'est que je considère qu'il m'est égal d'avoir une boule de citron que d'avoir une chance sur deux d'avoir mon parfum préféré ou mon pire. <br> Il faut ensuite normaliser afin de n'utiliser au total que 100 jetons";
+  // var bidding_text = "On décide d'organiser un concours du meilleur parfum de glace, pour cela vous devez donner votre avis avant de procéder à un vote"
   var housemates_copy = housemates;
   var bidding_sections = new Array();
   var html = "";
@@ -121,9 +122,9 @@ function createBiddingSections() {
     }
     html += "        <div class='calc-control'>";
     html += "          <div class='btns'>";
-    html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Reset</button>";
-    html += "            <button type='button' class='btn update' onclick='return updateSliders(" + i + ")'>Rescale</button>";
-    html += "            <button type='button' class='btn update' onclick='return checkSliders(" + i + ")'>Submit</button>";
+    html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Réinitialiser</button>";
+    html += "            <button type='button' class='btn update' onclick='return updateSliders(" + i + ")'>Normaliser</button>";
+    html += "            <button type='button' class='btn update' onclick='return checkSliders(" + i + ")'>Envoyer</button>";
    // html += "            <input type=\"submit\" class='btn update' value=\"Valider\" />";
     html += "          </div>";
     html += "          <div class='totals'>";
@@ -234,7 +235,7 @@ function checkSliders(i) {
     $("#bidding_"+i).append("<span class='white-check'>&#10003;</span>");
     return checkBids();
   } else {
-    displayError("Please make sure your evaluations add to " + rent + ".", "bidding-error-"+i);
+    displayError("Veuillez normaliser avec le bouton normaliser afin de n'utiliser que " + rent + " jetons.", "bidding-error-0");
     return false;
   }
 }
@@ -273,7 +274,7 @@ function checkBids() {
     $('#results-table').html('');
     $('#fairness-table').html('');
     $('#submit-demo').hide();
-    displayError("Votre participation a bien été prise en compte, merci","bidding-error-0");
+    displayError("Votre participation a bien été prise en compte, merci\n Vous pourrez recommencer dans 2 secondes","bidding-error-0");
     json = buildJSON();
     $.ajax({
       type: "POST",
@@ -290,7 +291,7 @@ function checkBids() {
     selec_taste = selecTaste(taste);
     createBiddingSections();
 
-}, 1500)
+}, 2200)
     
     
   } else {
@@ -328,6 +329,7 @@ function pollResults() {
 
 
 <div class="page-content">
+<h1> Le meilleur parfum </h1>
     <p id='bidding-error-" + i + "' class='error-msg error-text'></p>
     <div class="wrap" id="basics">
        

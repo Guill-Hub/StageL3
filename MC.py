@@ -16,16 +16,28 @@ import profile_generator
 
 m = 10
 n = 10
-p = 10
+p = 10000
 V = Borda(m)
 
 
+"""
+Je peux faire une fct avec comme arg psi ( ie IC ou Mallows) ainsi que expost et ex ante
 
-def fct_naive(n,m):
+"""
+
+def fct_expost_mallows(n,m,p):
+    """
+    j'ai l'impression que ici je dois faire la diff entre expost et l'autre
+    """
     gen = profile_generator.RandomSampleMallows(m,n,p)
     gen.refs = [[ m - i for i in range(m)]]
     
+    P = np.array((p,n))
     
+    # je ne comprend pas trop pourquoi je dois passer par cette culbute mais soit
+    for i,prof in enumerate(gen.profiles()):
+        for j,val in enumerate(prof):
+            P[i][j] = val
     
 
                
@@ -36,7 +48,7 @@ def recup_pref_libre(deja_select,pref):
     maxi = - 1
     i_max =  -1 
     for i in range(n):
-        if not deja_select[i] && pref[i] > maxi:
+        if not deja_select[i] & pref[i] > maxi:
             maxi = pref[i]
             i_max = i
     deja_select[i_max] = True
@@ -55,5 +67,15 @@ def ExpectU(deja_select,j,k,P):
          U += recup_pref_libre(deja_select,pref)
     return U
 
-def algo_gen(
-        
+
+gen = profile_generator.RandomSampleMallows(m,n,p)
+gen.refs = [[ m - i for i in range(m)]]
+
+pP = np.zeros((p,m,n))
+
+for i,prof in enumerate(gen.profiles()):
+    for j,val in enumerate(prof):
+        pP[i][j] = val
+
+meanP = np.mean(pP,axis=0)
+print(meanP)

@@ -8,7 +8,7 @@ import matplotlib.cm as cm
 
 
 def Borda(m):
-    return [0] + [ m - i + 1 for i in range(1,m+1)] # le premier element ne sert à rien
+    return [0] + [ (m - i + 1)**2 for i in range(1,m+1)] # le premier element ne sert à rien
 
 def Lexicographic(m):
     return [0] + [ 2 ** ( m - i ) for i in range(m)]
@@ -18,8 +18,8 @@ eps = 5.e-3
 def QI(m):
     return [0] + [ 1 + eps * (m - i) for i in range(m) ]
 
-m = 500
-n = 5
+m = 20
+n = 4
 V = Borda(m)
 print("youhou",len(V),len(Lexicographic(m)))
 
@@ -29,6 +29,11 @@ def U_max(T):
         maxi = max(maxi,e)
     return maxi
 
+def nb_max(T):
+    maxi = 0
+    for e in [ el[0] for el in T[1:]]:
+        maxi = max(maxi,e)
+    return maxi
 
 def plot_fm(n,m,S):
     #fair un plot f(n) tq max_min / min ou max en fait mdr pour voir les bornes
@@ -174,10 +179,76 @@ def plot_intel_norm(n,m,S,F):
     else :
         plt.title("Partage entre " + str(n) + " agents pour m de "+ str(n) + " à " + str(m) + ", normalisé par le max des utilités, avec un vecteur de score de " + S.__name__ + " pour le critère " + F.__name__)
     plt.show()
+
+def nb_obj(n,m,S,F):
+    N = [ i for i in range(n,m)]
+    X = [ [] for i in range(n+1)]
+    for nb_objet in range(n,m):
+        V = S(nb_objet)
+        val = var(n,nb_objet,V,F)
+        Nm = nb_max(val)
+        print(nb_objet,val,Nm)
+        for agent in range(1,n+1):
+            X[agent].append(val[agent][0])
+    for agent in range(1,n+1):
+                  plt.plot(N,X[agent], label = "agent " + str(agent), color=cm.rainbow(agent/n))
+    if S.__name__ == "QI":
+        plt.title("Partage entre " + str(n) + " agents pour m de "+ str(n) + " à " + str(m) + ", normalisé par le max des utilités, avec un vecteur de score de " + S.__name__ + " (eps = " + str(eps) +" ) pour le critère " + F.__name__)
+    else :
+        plt.title("Partage entre " + str(n) + " agents pour m de "+ str(n) + " à " + str(m) + ", normalisé par le max des utilités, avec un vecteur de score de " + S.__name__ + " pour le critère " + F.__name__)
+    plt.xlabel("m : the number of objects")
+    plt.ylabel("number of object selected / number of object to share")
+    plt.legend()
+    plt.show()
+
     
+def nb_obj_norm(n,m,S,F):
+    N = [ i for i in range(n,m)]
+    X = [ [] for i in range(n+1)]
+    for nb_objet in range(n,m):
+        V = S(nb_objet)
+        val = var(n,nb_objet,V,F)
+        Nm = nb_max(val)
+        print(nb_objet,val,Nm)
+        for agent in range(1,n+1):
+            X[agent].append(val[agent][0]/nb_objet)
+    for agent in range(1,n+1):
+                  plt.plot(N,X[agent], label = "agent " + str(agent), color=cm.rainbow(agent/n))
+    if S.__name__ == "QI":
+        plt.title("Partage entre " + str(n) + " agents pour m de "+ str(n) + " à " + str(m) + ", normalisé par le max des utilités, avec un vecteur de score de " + S.__name__ + " (eps = " + str(eps) +" ) pour le critère " + F.__name__)
+    else :
+        plt.title("Partage entre " + str(n) + " agents pour m de "+ str(n) + " à " + str(m) + ", normalisé par le max des utilités, avec un vecteur de score de " + S.__name__ + " pour le critère " + F.__name__)
+    plt.xlabel("m : the number of objects")
+    plt.ylabel("number of object selected / number of object to share")
+    plt.legend()
+    plt.show()
+
+def nb_intel_norm(n,m,S,F):
+    N = [ i for i in range(n,m)]
+    X = [ [] for i in range(n+1)]
+    T = np.full((m+1,m+1,m+1),-1.)
+    M = np.full((m+1,n+1,n+1,2),-1.)
+    V = S(m)
+    for nb_objet in range(n,m):
+        val = algo_verif(1,m-nb_objet,n,m,V,T,M,F)
+        Nm = nb_max(val)
+        print(nb_objet,val,Nm)
+        for agent in range(1,n+1):
+            X[agent].append(val[agent][0]/nb_objet)
+    for agent in range(1,n+1):
+                  plt.plot(N,X[agent], label = "agent " + str(agent), color=cm.rainbow(agent/n))
+    plt.legend()
+    if S.__name__ == "QI":
+        plt.title("Partage entre " + str(n) + " agents pour m de "+ str(n) + " à " + str(m) + ", normalisé par le max des utilités, avec un vecteur de score de " + S.__name__ + " (eps = " + str(eps) +" ) pour le critère " + F.__name__)
+    else :
+        plt.title("Partage entre " + str(n) + " agents pour m de "+ str(n) + " à " + str(m) + ", normalisé par le max des utilités, avec un vecteur de score de " + S.__name__ + " pour le critère " + F.__name__)
+        plt.xlabel("m : the number of objects")
+    plt.ylabel("number of object selected / number of object to share")
+    plt.legend()
+    plt.show()
     
-plot_intel_norm(n,m,Borda,min)
-#plot_chaque_norm(n,m,Borda,utilitarian)
+#plot_intel_norm(n,m,Borda,min)
+nb_intel_norm(n,m,Borda,utilitarian)
 #plot_fm(n,m,Borda)
 #plot_fn(n,m,V)
 #plot_fnm(n,m,Borda)

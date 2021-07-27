@@ -125,7 +125,7 @@ def algo_verif(i,k,n,m,V,T,M,F):
             
             
             U_max = 0
-            for t in range(1,m-k+1): 
+            for t in range(m-k+1): 
                 U_first = E(k,t,m,V,T)
                 partiel = copy.deepcopy(algo_verif(i+1,k+t,n-1,m,V,T,M,F))
                 min_U = F(partiel[0][1],U_first)
@@ -149,9 +149,9 @@ def var(n,m,V,F):
 
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
-#print(var(n,m,Borda(m),egalitarian))
+print(var(n,m,Borda(m),egalitarian))
 np.set_printoptions(precision=6)
 np.set_printoptions(suppress=True)
-#print(var(n,m,Borda(m),nash))
+print(var(n,m,Borda(m),utilitarian))
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
