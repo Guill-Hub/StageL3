@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <html>
   <head>
-    <title>Live Demo: Assign selec_taste and Share Rent - Spliddit</title>
+    <title>Exprérience Préférences</title>
     <link href="application-3f30be57b6c118e639cf350d34fb118c.css" media="all" rel="stylesheet" type="text/css" />
 
     <script src="application-4fd66bbc1d249312453de646bbc94e92.js" type="text/javascript"></script>
@@ -20,7 +20,6 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="description" content="Spliddit&#x27;s rent calculator helps roommates to assign selec_taste and share rent when moving into a new house or apartment. With the live demo, you can experiment with the calculator and view the results on a single screen in a matter of seconds.">
     <meta name="viewport" content="width=device-width">
     <link href="/assets/favicon-095b13468d95e2fa09239289e51417ba.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
     <script type="text/javascript">
@@ -37,10 +36,10 @@ function randomize(tab) {
     return tab;
 }
 
-var taste = ["Kiwi" ,"Litchi", "Mangue", "Mandarine", "Melon", "Mirabelle", "Mûre", "Myrtille", "Orange", "Orange sanguine","Abricot","Ananas","Banane","Citron", "Citron Vert", "Cerise", "Cassis" , "Cassis" , "Framboise", "Coco", "Figue", "Fraise", "Fruit de la passion", "Poire", "Rhubarbe", "Pamplemousse"]
+var taste = ["Kiwi" ,"Litchi", "Mangue", "Mandarine", "Melon", "Mirabelle", "Mûre", "Myrtille", "Orange", "Orange sanguine","Abricot","Ananas","Banane","Citron", "Citron Vert", "Cerise", "Cassis" , "Framboise", "Coco", "Figue", "Fraise", "Fruit de la passion", "Poire", "Rhubarbe", "Pamplemousse", "Miel - Pignons", "Tiramisù" , "Chocolat Gingembre" , "Fraise Tagada" , "Nougat", "	Speculoos", "Café", "Confiture de lait" , "Pistache", "Réglisse", "Lavande", "Caramel", "Dragibus" , "Rose", "Avocat","Chewing-gum", "Olive", "Chocolat Piment", "Tomate - Basilic", "Cannelle", "Chocolat Blanc", "Chocolat", "Amande", "Coquelicot", "Cookies", "Pain d'épice", "Cactus", "Bière", "Oreo", "Nutella", "Vanille", "Barbe à Papa", "Rhum-Raisins", "Potimarron", "Châtaigne", "Pollen Sauvage", "Riz au lait", "Caramel Beurre salé"]
 taste = randomize(taste)
 var housemates = ["user"];
-var nb_selec_taste = 7
+var nb_selec_taste = 15
 var selec_taste = selecTaste(taste)
 var nb_attempt = 0;
 
@@ -93,12 +92,32 @@ function createBiddingSections() {
         50 à citron  c'est à peu près pareil que avoir une boule de citron ou avoir avec une chance sur deux avoir une boule de chocolat ou une chance sur deux de cerise"
     var bidding_text2 = "On doit élire le meilleur parfum : 100 point à répartir comment vous les répartissez ?" il faut expliquer comment le gagnant est calculé
   */
-  var bidding_text = "Sur une échelle de 0 à 100 à quel point serez-vous heureux d'obtenir une boule de glace d'un parfum donné en sachant que votre parfum préféré vaut 100 et votre pire 0. Il faut ensuite normaliser ces valeurs avec le bouton normaliser afin de n'octroyer que 100 jetons au total";
+  /*var bidding_text = "Sur une échelle de 0 à 100 à quel point serez-vous heureux d'obtenir une boule de glace d'un parfum donné en sachant que votre parfum préféré vaut 100 et votre pire 0. Il faut ensuite normaliser ces valeurs avec le bouton normaliser afin de n'octroyer que 100 jetons au total";
   var bidding_text = "En considérant que votre parfum préféré vaut 100 et votre pire vaut 0, classez les autres en considérant le fait que vous octroyez x points à un parfum s'il vous ai égal d'avoir ce parfum que d'avoir x % de chance d'avoir votre parfum préféré sinon votre pire.<br>Par exemple si je mets 50 sur citron c'est que je considère qu'il m'est égal d'avoir une boule de citron que d'avoir une chance sur deux d'avoir mon parfum préféré ou mon pire. <br> Il faut ensuite normaliser afin de n'utiliser au total que 100 jetons";
   // var bidding_text = "On décide d'organiser un concours du meilleur parfum de glace, pour cela vous devez donner votre avis avant de procéder à un vote"
+  */
+  var bidding_text = "";
   var housemates_copy = housemates;
   var bidding_sections = new Array();
   var html = "";
+  html += "<h1>Quelles glaces aimez-vous? </h1>";
+  html += "<h2> Ce sondage a pour but de connaître la façon dont sont réparties l'intensité de vos préférences dans un domaine qui intéresse beaucoup de monde : différents parfums de glace. Si vous n'aimez pas les sorbets ni les glaces, ce sondage va sans doute vous ennuyer et nous vous suggérons de ne pas le faire. Il demande 3 minutes maximum . <h2>"
+  html += "<p class=\"property-info\">Premièrement parmis les 15 parfums suivants: </br> Quel est le parfum que vous préférez  ? </br> "
+  var id_pref = 0;
+  var id_pire = 0;
+  //html += "<div class="dropdown">"
+  //html += "<button onclick="myFunction()" class="dropbtn">Dropdown</button>"
+  //html += "<div id="myDropdown" class="dropdown-content">"
+    var j;
+    for (j=0; j < nb_selec_taste; j++) {
+        html += "<a >Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+</div>
+  
+  html += "Quel est le parfum que vous aimez le moins ? </br> <p>"
+  
   var i = 0;
     html += " <form method=\"post\" action=\"recup.php\">";
     html += "  <div id ='essai-" + nb_attempt + "'>";
@@ -106,7 +125,7 @@ function createBiddingSections() {
     html += "    <p id='bidding-error-" + i + "' class='error-msg error-text'></p>";
     html += "    <div class='range-calc'>";
     html += "      <div class='calculations'>";
-    var j;
+    
     for (j=0; j < nb_selec_taste; j++) {
       html += "      <div class='calc-row'>";
       html += "        <div class='name'>";
@@ -120,6 +139,8 @@ function createBiddingSections() {
       html += "        </span>";
       html += "      </div>";
     }
+    html += "<div> <p class=\"property-info\" > Nous allons vous demander d'exprimer vos préférences sur les autres différents parfum, sachant que nous vous imposons la calibration suivante : le parfum [*PARFUM PREFERE*] vaut 100 point et le parfum [*PARFUM QUE VOUS AIMEZ LE MOINS*] vaut 0 point. La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. <p>"
+    html += " <p class=\"property-info\"> Par exemple : </br> * J’aime beaucoup la mangue, je mets 90 points sur la mangue car je considère qu'il m'est égal d'avoir une boule de mangue que d'avoir 90% de chances d'avoir mon parfum préféré et 10% d'avoir celui que j’aime le moins.</br>* J’aime beaucoup moins le réglisse, je mets 10 points car je considère qu'il m'est égal d'avoir une boule de réglisse que d'avoir 10% de chances d'avoir mon parfum préféré et 90% celui que j’aime le moins.</br>* Je mets 50 points sur le citron car je considère qu'il m'est égal d'avoir une boule de citron que d'avoir une chance sur deux d'avoir mon parfum préféré ou celui que j’aime le moins.<p> </div>"
     html += "        <div class='calc-control'>";
     html += "          <div class='btns'>";
     html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Réinitialiser</button>";
@@ -316,12 +337,17 @@ function pollResults() {
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->    
   </head>
+
   <body>
 
 
 <style>
     .site{
-        padding: 0.5em
+        padding: 1.5em
+    }
+    
+    p {
+        font-size : 1em !important
     }
 </style>
 <div class="site">
@@ -329,7 +355,8 @@ function pollResults() {
 
 
 <div class="page-content">
-<h1> Le meilleur parfum </h1>
+
+
     <p id='bidding-error-" + i + "' class='error-msg error-text'></p>
     <div class="wrap" id="basics">
        
