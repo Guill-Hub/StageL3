@@ -100,33 +100,33 @@ function createBiddingSections() {
   var housemates_copy = housemates;
   var bidding_sections = new Array();
   var html = "";
-  html += "<h1>Quelles glaces aimez-vous? </h1>";
+  html += "<div id='ma_page'><h1>Quelles glaces aimez-vous? </h1>";
   html += "<h2> Ce sondage a pour but de connaître la façon dont sont réparties l'intensité de vos préférences dans un domaine qui intéresse beaucoup de monde : différents parfums de glace. Si vous n'aimez pas les sorbets ni les glaces, ce sondage va sans doute vous ennuyer et nous vous suggérons de ne pas le faire. Il demande 3 minutes maximum . </h2>"
-  html += " <div> <p class=\"property-info\">Premièrement parmis les 15 parfums suivants: </br> Quel est le parfum que vous préférez  ? </br> "
+  html += " <div> <p class=\"property-info\">Premièrement parmis les 15 parfums suivants: </br> </p>"
   var id_pref = 0;
   var id_pire = 0;
   //html += "<div class="dropdown">"
   //html += "<button onclick="myFunction()" class="dropbtn">Dropdown</button>"
   //html += "<div id="myDropdown" class="dropdown-content">"
-  html += "<div>"
-  html +=  '<select name="pref" id="pref" onchange="change_pref();>\n'
+  html += "<div> Quel est le parfum que vous préférez  ? </br> "
+  html +=  '<select name="pref" id="pref" onchange="change_text();">\n'
     var j;
-    for (j=0; j <= nb_selec_taste; j++) {
-        html += " <option value=\"" + (j+1) + "\">" + selec_taste[j-1] + "</option>"
+    for (j=0; j < nb_selec_taste; j++) {
+        html += " <option value=\"" + j + "\">" + selec_taste[j] + "</option>"
     };
   html += "</select> </div></br>"
-  html += "<div>" 
-  html +=  '<select name="pref" id="pref" onchange="change_pref();>\n'
+  html += "<div>Quel est le parfum que vous aimez le moins  ? </br>" 
+  html +=  '<select name="pire" id="pire" onchange="change_text();">\n'
     var j;
-    for (j=0; j <= nb_selec_taste; j++) {
-        html += " <option value=\"" + (j+1) + "\">" + selec_taste[j-1] + "</option>" // je ne coomprend pas pourquoi je dois passer par ça
+    for (j=0; j < nb_selec_taste; j++) {
+        html += " <option value=\"" + j + "\">" + selec_taste[j] + "</option>"
     };
   html += "</select> </div></br>" 
   var pref = selec_taste[0];
   var pire = selec_taste[0];
   
-  html += "<div> <p class=\"change\" > Nous allons vous demander d'exprimer vos préférences sur les autres différents parfum, sachant que nous vous imposons la calibration suivante : le parfum " + pref + " vaut 100 point et le parfum " + pire + " vaut 0 point. La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. </p>"
-    html += " <p class=\"property-info\"> Par exemple : </br> * J’aime beaucoup la mangue, je mets 90 points sur la mangue car je considère qu'il m'est égal d'avoir une boule de mangue que d'avoir 90% de chances d'avoir mon parfum préféré et 10% d'avoir celui que j’aime le moins.</br>* J’aime beaucoup moins le réglisse, je mets 10 points car je considère qu'il m'est égal d'avoir une boule de réglisse que d'avoir 10% de chances d'avoir mon parfum préféré et 90% celui que j’aime le moins.</br>* Je mets 50 points sur le citron car je considère qu'il m'est égal d'avoir une boule de citron que d'avoir une chance sur deux d'avoir mon parfum préféré ou celui que j’aime le moins.<p> </div></div>"
+  html += "<div> <p id=\"change\" > Nous allons vous demander d'exprimer vos préférences sur les autres différents parfum, sachant que nous vous imposons la calibration suivante : le parfum " + pref + " vaut 100 point et le parfum " + pire + " vaut 0 point. La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. </p>"
+    html += " <p class=\"property-info\"> Par exemple : </br> * J’aime beaucoup la mangue, je mets 90 points sur la mangue car je considère qu'il m'est égal d'avoir une boule de mangue que d'avoir 90% de chances d'avoir mon parfum préféré et 10% d'avoir celui que j’aime le moins.</br>* J’aime beaucoup moins le réglisse, je mets 10 points car je considère qu'il m'est égal d'avoir une boule de réglisse que d'avoir 10% de chances d'avoir mon parfum préféré et 90% celui que j’aime le moins.</br>* Je mets 50 points sur le citron car je considère qu'il m'est égal d'avoir une boule de citron que d'avoir une chance sur deux d'avoir mon parfum préféré ou celui que j’aime le moins.</p> </div>"
   var i = 0;
     html += " <form method=\"post\" action=\"recup.php\">";
     html += "  <div id ='essai-" + nb_attempt + "'>";
@@ -152,19 +152,17 @@ function createBiddingSections() {
     html += "        <div class='calc-control'>";
     html += "          <div class='btns'>";
     html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Réinitialiser</button>";
-    html += "            <button type='button' class='btn update' onclick='return updateSliders(" + i + ")'>Normaliser</button>";
-    html += "            <button type='button' class='btn update' onclick='return checkSliders(" + i + ")'>Envoyer</button>";
+    html += "            <button type='button' class='btn update' onclick='return checkBids()'>Envoyer</button>";
    // html += "            <input type=\"submit\" class='btn update' value=\"Valider\" />";
     html += "          </div>";
     html += "          <div class='totals'>";
     html += "            <p><strong>Current Total:</strong> <span id = 'sum-" + i + "'>0</span></p>";
-    html += "            <p><strong>Target:</strong> " + rent + "</p>";
     html += "          </div>";
     html += "        </div>";
     html += "      </div>";
     html += "    </div>";
     html += "  </div>";
-    html += " </form>";
+    html += " </form></div>";
   $('.accordion-bidding').remove();
   $("#basics").after(html);
   $(".nstSlider").nstSlider({
@@ -190,15 +188,22 @@ function createBiddingSections() {
   $('.accordion').unbind();
   $('.accordion').accordion({defaultOpen: 'basics'});
 }
-function change_pire(){
+function change_text(){
+    pref = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
     pire = document.getElementById('pire').options[document.getElementById('pire').selectedIndex].value;
-    $(".change").text("Nous allons vous demander d'exprimer vos préférences sur les autres différents parfum, sachant que nous vous imposons la calibration suivante : le parfum " + pref + " vaut 100 point et le parfum " + pire + " vaut 0 point. La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. ");
+    $("#change").text("Nous allons vous demander d'exprimer vos préférences sur les autres différents parfum, sachant que nous vous imposons la calibration suivante : le parfum " + selec_taste[pref] + " vaut 100 point et le parfum " + selec_taste[pire] + " vaut 0 point. La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. ");
+    for (j=0; j < nb_selec_taste; j++){
+        if (j==pire){
+            $("#values_0_" + j).value(0)
+        }else if (j==pref){
+            $("#values_0_" + j).value(100)
+        } else {
+            $("#values_0_" + j).value(50)
+        }
+    }
 }
 
-function change_pref(){
-    pire = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
-    $(".change").text(" Nous allons vous demander d'exprimer vos préférences sur les autres différents parfum, sachant que nous vous imposons la calibration suivante : le parfum " + pref + " vaut 100 point et le parfum " + pire + " vaut 0 point. La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. ");
-}
+
 function containsDuplicates(array) {
   var valuesSoFar = {};
   for (var i = 0; i < array.length; ++i) {
@@ -297,15 +302,7 @@ function advanceAccordion(cur_tab) {
 function checkBids() {
   var success = true;
   var i;
-  for (i = 0; i < housemates.length; i++) {
-    $("#bidding_"+i+" .white-check").remove();
-    if (sum[i] != rent) {
-      success = false;
-    } else {
-      $("#bidding_"+i).append("<span class='white-check'>&#10003;</span>");
-    }
-  }
-  if (success) {
+
     $('#update-results-msg').text("Your request is being processed. This may take a moment.");
     $('#results-table').html('');
     $('#fairness-table').html('');
@@ -321,7 +318,7 @@ function checkBids() {
       $('#submit-demo').show();
     });
     setTimeout(function (){
-
+    $("#ma_page").remove();
   $('#essai-' + nb_attempt).remove();
     nb_attempt += 1;
     selec_taste = selecTaste(taste);
@@ -330,9 +327,7 @@ function checkBids() {
 }, 2200)
     
     
-  } else {
-    displayError("Some participants haven't entered their evaluations, or have errors (checkmarks indicate those who have successfully entered their evaluations). Once everyone is done, press the submit button again.", "update-results-msg");
-  }
+  
 }
 
 function buildJSON() {
