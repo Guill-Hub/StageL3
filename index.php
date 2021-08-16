@@ -110,13 +110,15 @@ function createBiddingSections() {
   //html += "<div id="myDropdown" class="dropdown-content">"
   html += "<div> Quel est le parfum que vous préférez  ? </br> "
   html +=  '<select name="pref" id="pref" onchange="change_text();">\n'
+  html +=  "<option value=\"" + -1 + "\"> Choisir un parfum </option>"
     var j;
     for (j=0; j < nb_selec_taste; j++) {
         html += " <option value=\"" + j + "\">" + selec_taste[j] + "</option>"
     };
-  html += "</select> </div></br>"
+  html += "</select> </div></br>"0
   html += "<div>Quel est le parfum que vous aimez le moins  ? </br>" 
   html +=  '<select name="pire" id="pire" onchange="change_text();">\n'
+  html +=  "<option value=\"" + -1 + "\"> Choisir un parfum </option>"
     var j;
     for (j=0; j < nb_selec_taste; j++) {
         html += " <option value=\"" + j + "\">" + selec_taste[j] + "</option>"
@@ -125,8 +127,8 @@ function createBiddingSections() {
   var pref = selec_taste[0];
   var pire = selec_taste[0];
   
-  html += "<div> <p id=\"change\" > Nous allons vous demander d'exprimer vos préférences sur les autres différents parfum, sachant que nous vous imposons la calibration suivante : le parfum " + pref + " vaut 100 point et le parfum " + pire + " vaut 0 point. La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. </p>"
-    html += " <p class=\"property-info\"> Par exemple : </br> * J’aime beaucoup la mangue, je mets 90 points sur la mangue car je considère qu'il m'est égal d'avoir une boule de mangue que d'avoir 90% de chances d'avoir mon parfum préféré et 10% d'avoir celui que j’aime le moins.</br>* J’aime beaucoup moins le réglisse, je mets 10 points car je considère qu'il m'est égal d'avoir une boule de réglisse que d'avoir 10% de chances d'avoir mon parfum préféré et 90% celui que j’aime le moins.</br>* Je mets 50 points sur le citron car je considère qu'il m'est égal d'avoir une boule de citron que d'avoir une chance sur deux d'avoir mon parfum préféré ou celui que j’aime le moins.</p> </div>"
+  html += "<div> <p id=\"change\" > Nous allons vous demander d'exprimer vos préférences sur les autres différents parfums, sachant que nous vous imposons la calibration suivante : votre parfum préféré vaut 100 points et le parfum que vous aimez le moins vaut 0 point . La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. </p>"
+    html += " <p class=\"property-info\" id='exemple'></p> </div>"
   var i = 0;
     html += " <form method=\"post\" action=\"recup.php\">";
     html += "  <div id ='essai-" + nb_attempt + "'>";
@@ -165,7 +167,7 @@ function createBiddingSections() {
     html += " </form></div>";
   $('.accordion-bidding').remove();
   $("#basics").after(html);
-  $(".nstSlider").nstSlider({
+  $(".nstSlider").nstSlider({   
     left_grip_selector:".leftGrip",
     value_changed_callback: function(cause, v) {
       $(this).parent().find(".leftLabel").val(v);
@@ -188,19 +190,47 @@ function createBiddingSections() {
   $('.accordion').unbind();
   $('.accordion').accordion({defaultOpen: 'basics'});
 }
+
+function libre(i){
+    var x = i
+    pref = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
+    pire = document.getElementById('pire').options[document.getElementById('pire').selectedIndex].value;
+    if (x==pire || x==pref){
+        x += 5
+    } if (x==pire || x==pref){
+        x += 5
+    }
+    return selec_taste[x]
+}
+
 function change_text(){
     pref = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
     pire = document.getElementById('pire').options[document.getElementById('pire').selectedIndex].value;
-    $("#change").text("Nous allons vous demander d'exprimer vos préférences sur les autres différents parfum, sachant que nous vous imposons la calibration suivante : le parfum " + selec_taste[pref] + " vaut 100 point et le parfum " + selec_taste[pire] + " vaut 0 point. La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. ");
-    for (j=0; j < nb_selec_taste; j++){
+    $("#change").text("Nous allons vous demander d'exprimer vos préférences sur les autres différents parfums, sachant que nous vous imposons la calibration suivante : le parfum " + selec_taste[pref] + " vaut 100 points et le parfum " + selec_taste[pire] + " vaut 0 point (on vous redemandera vos préférence sur  " + selec_taste[pref] + " et " + selec_taste[pire] + "; c'est normal). La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. ");
+    $("#exemple").html("Par exemple : </br>* S'il vous est égal d'avoir une boule de " + libre(2) + " que d'avoir une chance sur deux d'avoir le parfum " + selec_taste[pref] + " ou " + selec_taste[pire] + " vous pouvez donner une valeur 50 à " + libre(2) +".</br>* S'il vous est indifférent d'avoir " + libre(1) + " avec certitude, et " + selec_taste[pref] + " avec une chance sur trois et " + selec_taste[pire] + " avec deux chances sur trois, vous pouvez donner une valeur 33 à " + libre(1) +". </br>* S'il vous est indifférent d'avoir " + libre(3) + " avec certitude, et " + selec_taste[pref] + " avec quatre-vingt-dix pourcents de chance et " + selec_taste[pire] + " avec dix pourcents de chance, vous pouvez donner une valeur 90 à " + libre(3) +". </br>* S'il vous est indifférent d'avoir " + libre(4) + " avec certitude, et " + selec_taste[pref] + " avec vingts pourcents de chance et " + selec_taste[pire] + " avec quatre-vingt pourcents de chance, vous pouvez donner une valeur 20 à " + libre(4) +". </br>")
+    /*for (j=0; j < nb_selec_taste; j++){
         if (j==pire){
-            $("#values_0_" + j).value(0)
+            $("#values_0_" + j).val(0);
+            //$(".nstSlider"+j).nstSlider("set_position",0);
         }else if (j==pref){
-            $("#values_0_" + j).value(100)
+            $("#values_0_" + j).val(100);
+            //$(".nstSlider"+j).nstSlider("set_position",100);
         } else {
-            $("#values_0_" + j).value(50)
-        }
-    }
+            $("#values_0_" + j).val(50);
+            //$(".nstSlider"+j).nstSlider("set_position",50);
+        } 
+        
+        
+    }*/
+    /*
+      $(".valuation_ipt"+i).blur(function() {
+      var val = parseInt($(this).val());
+      if (isNaN(val) || val<=0) val = 0;
+      if (val>rent) val=rent;
+      $(this).val(val);
+      $(this).parent().parent().find(".nstSlider").nstSlider("set_position", val);
+      updateSum($(this).data('id'));
+  }); */
 }
 
 
