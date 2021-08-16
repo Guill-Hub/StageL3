@@ -2,21 +2,23 @@ from math import factorial
 import numpy as np
 import matplotlib.pyplot as plt
 import copy
-from algo_gen import *
 
 import matplotlib.cm as cm
 
 def Borda(n):
     return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
 
-m = 50
-n = 2
+m = 20
+n = 30
 V = Borda(m)
 k = 3
 
-egalitarian = min
+
 #utilitarian = lambda x,y : x + y   les lambdas ne se plot pas bien après
 #nash = lambda x,y : x * y
+
+def egalitarian(x,y):
+    return min(x,y)
 
 def utilitarian(x,y):
     return x + y
@@ -113,12 +115,59 @@ def algo_aux(i,k,n,m,V,T,M): #user i, k objets already selected, n users, m obje
 # Je ne peux plus utiliser le fait que dès que le min_U < U_fist il y a bascule car rien n'implique que ça reste vrai avec le + et le *,du coup je dois faire une exploration
 
 def algo_verif(i,k,n,m,V,T,M,F):
+    """
+    return 
+    - i the i-th agent so i can fill M
+    - k objets already selected
+    - n users left
+    - m objects in total
+    - V the vector of score
+    - T array used for the memoisation of E(k,t)
+    - M array used for the memoisation of G(i,r)
+    
+    """
+    
+    if M[k,n,0,0] == -1: #if not already computed
+        M[k,n,0,0] = 0   # set as computed
+        if n == 1 :      # if there is just one more agent
+            M[k,1,i,0] = m - k  # then he take all objets lefts
+            M[k,1,i,1] = sum(V)* (1-k/m) #every object can be selected and has not been taken before with the probability of 1-k/m
+            M[k,1,0,1] = M[k,1,i,1] #there is one agent so the social welfare is its utility
+            
+        else:
+                        
+            U_max = 0   #  we want to keep the utility which optimize the social welfare
+            for t in range(m-k+1): # we will give t=0...(m-k) objets to agent i
+                U_first = E(k,t,m,V,T) # we compute his expected utility
+                partiel = copy.deepcopy(algo_verif(i+1,k+t,n-1,m,V,T,M,F)) # compute the sub-problem
+                min_U = F(partiel[0][1],U_first) # compute the expected social welfare
+
+                if min_U > U_max: #if the policy maximize the social welfare
+                    M[k,n] = partiel # save policy of the sub-problem
+                    M[k,n,0,1] = min_U # social welfare
+                    M[k,n,i,0] = t #numbers of objects given to agent i
+                    M[k,n,i,1] = U_first #expected utility of agent i
+                    U_max = min_U
+                                
+    return M[k,n]
+
+def var(n,m,V,F):
+    T = np.full((m+1,m+1,m+1),-1.)
+    M = np.full((m+1,n+1,n+1,2),-1.)
+    return algo_verif(1,0,n,m,V,T,M,F)
+
+def optimal(n,m,V,F):
+    T = np.full((m+1,m+1,m+1),-1.)
+    M = np.full((m+1,n+1,n+1,2),-1.)
+    return algo_opt(1,0,n,m,V,T,M,F)
+
+def algo_opt(i,k,n,m,V,T,M,F):
     
     if M[k,n,0,0] == -1:
         M[k,n,0,0] = 0
         if n == 1 :
             M[k,1,i,0] = m - k
-            M[k,1,i,1] = sum(V)* (1-k/m)
+            M[k,1,i,1] = sum(V[1:m-k+1])
             M[k,1,0,1] = M[k,1,i,1]
             #print("test")
         else:
@@ -126,8 +175,8 @@ def algo_verif(i,k,n,m,V,T,M,F):
             
             U_max = 0
             for t in range(m-k+1): 
-                U_first = E(k,t,m,V,T)
-                partiel = copy.deepcopy(algo_verif(i+1,k+t,n-1,m,V,T,M,F))
+                U_first = Opt(k,t,m,V,T)
+                partiel = copy.deepcopy(algo_opt(i+1,k+t,n-1,m,V,T,M,F))
                 min_U = F(partiel[0][1],U_first)
                 #print(U_max,min_U,t,i)
 
@@ -142,16 +191,17 @@ def algo_verif(i,k,n,m,V,T,M,F):
         
     return M[k,n]
 
-def var(n,m,V,F):
-    T = np.full((m+1,m+1,m+1),-1.)
-    M = np.full((m+1,n+1,n+1,2),-1.)
-    return algo_verif(1,0,n,m,V,T,M,F)
+def Opt(k,t,m,V,T):
+    return sum(V[1:t+1])
 
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
-print(var(n,m,Borda(m),egalitarian))
+print(var(n,m,Borda(m),utilitarian))
 np.set_printoptions(precision=6)
 np.set_printoptions(suppress=True)
-print(var(n,m,Borda(m),utilitarian))
+#print(var(n,m,Borda(m),utilitarian))
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
+#print(optimal(n,m,Borda(m),utilitarian))
+#print(optimal(n,m,Borda(m),egalitarian))
+#print(optimal(n,m,Borda(m),nash))
