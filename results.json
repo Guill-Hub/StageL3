@@ -2,10 +2,10 @@
     "input": {
         "Nutella": "70",
         "Barbe \u00e0 Papa": "35",
-        "Caramel Beurre salé": "100",
+        "Caramel Beurre sal\u00e9": "100",
         "Fraise Tagada": "20",
         "Banane": "60",
-        "Châtaigne": "60",
+        "Ch\u00e2taigne": "60",
         "Citron": "50",
         "Caramel": "70",
         "Oreo": "40",
@@ -34,8 +34,8 @@
         "Pamplemousse": "0",
         "Chocolat": "47",
         "Kiwi": "65",
-        "Caramel Beurre salé": "41",
-        "Réglisse": "2",
+        "Caramel Beurre sal\u00e9": "41",
+        "R\u00e9glisse": "2",
         "Cannelle": "4",
         "Fraise Tagada": "8",
         "Avocat": "67",
@@ -49,20 +49,20 @@
         "Rhubarbe": "51",
         "Pistache": "35",
         "Coco": "99",
-        "Speculoos": "100",
+        "\tSpeculoos": "100",
         "Dragibus": "9",
         "Orange sanguine": "52",
         "Abricot": "46",
         "Tomate - Basilic": "50",
         "Pamplemousse": "24",
-        "Châtaigne": "84",
-        "Tiramisù": "67"
+        "Ch\u00e2taigne": "84",
+        "Tiramis\u00f9": "67"
     }
 }{
     "input": {
         "Olive": "5",
         "Chocolat Gingembre": "8",
-        "Café": "10",
+        "Caf\u00e9": "10",
         "Rhum-Raisins": "9",
         "Cannelle": "3",
         "Amande": "67",
@@ -70,7 +70,7 @@
         "Coco": "100",
         "Pollen Sauvage": "0",
         "Framboise": "100",
-        "Tiramisù": "4",
+        "Tiramis\u00f9": "4",
         "Cookies": "100"
     }
 }{
@@ -91,7 +91,7 @@
 }{
     "input": {
         "Orange": "43",
-        "Réglisse": "8",
+        "R\u00e9glisse": "8",
         "Abricot": "55",
         "Nougat": "52",
         "Cookies": "80",
@@ -113,15 +113,15 @@
         "Riz au lait": "12",
         "Lavande": "29",
         "Citron Vert": "63",
-        "Café": "6",
-        "Châtaigne": "91",
+        "Caf\u00e9": "6",
+        "Ch\u00e2taigne": "91",
         "Rhum-Raisins": "19",
-        "Mûre": "60"
+        "M\u00fbre": "60"
     }
 }{
     "input": {
         "Banane": "77",
-        "Pain d'épice": "8",
+        "Pain d'\u00e9pice": "8",
         "Chocolat Piment": "19",
         "Chocolat Blanc": "100",
         "Cannelle": "6",
@@ -129,28 +129,28 @@
         "Fraise Tagada": "12",
         "Framboise": "77",
         "Chocolat Gingembre": "13",
-        "Tiramisù": "8",
+        "Tiramis\u00f9": "8",
         "Rhum-Raisins": "14",
         "Caramel": "25"
     }
 }{
     "input": {
         "Mandarine": "49",
-        "Réglisse": "11",
+        "R\u00e9glisse": "11",
         "Mangue": "72",
         "Chocolat Gingembre": "12",
         "Tomate - Basilic": "53",
         "Dragibus": "11",
         "Chocolat": "31",
-        "Pain d'épice": "9",
-        "Speculoos": "100",
+        "Pain d'\u00e9pice": "9",
+        "\tSpeculoos": "100",
         "Confiture de lait": "43",
         "Orange sanguine": "23",
         "Caramel": "14"
     }
 }{
     "input": {
-        "Tiramisù": "12",
+        "Tiramis\u00f9": "12",
         "Abricot": "50",
         "Melon": "22",
         "Rose": "22",
@@ -161,34 +161,34 @@
         "Banane": "100",
         "Caramel": "31",
         "Kiwi": "47",
-        "Café": "12"
+        "Caf\u00e9": "12"
     }
 }{
     "input": {
         "Melon": "63",
         "Litchi": "55",
         "Mangue": "16",
-        "Réglisse": "0",
+        "R\u00e9glisse": "0",
         "Cookies": "5",
         "Ananas": "13",
         "Amande": "30",
         "Chocolat Blanc": "27",
         "Rose": "38",
-        "Bière": "0",
+        "Bi\u00e8re": "0",
         "Fraise Tagada": "63",
         "Abricot": "31"
     }
 }{
     "input": {
         "Banane": "50",
-        "Tiramisù": "91",
+        "Tiramis\u00f9": "91",
         "Nougat": "90",
         "Riz au lait": "99",
         "Chocolat Piment": "99",
         "Coco": "80",
         "Oreo": "75",
         "Poire": "80",
-        "Café": "87",
+        "Caf\u00e9": "87",
         "Ananas": "80",
         "Figue": "100",
         "Pistache": "79"
@@ -202,9 +202,9 @@
         "Fraise Tagada": "30",
         "Chocolat": "100",
         "Rhubarbe": "0",
-        "Châtaigne": "15",
-        "Caramel Beurre salé": "13",
-        "Mûre": "55",
+        "Ch\u00e2taigne": "15",
+        "Caramel Beurre sal\u00e9": "13",
+        "M\u00fbre": "55",
         "Orange": "65",
         "Banane": "70"
     }
@@ -215,10 +215,10 @@
         "Abricot": "0",
         "Fraise Tagada": "0",
         "Litchi": "0",
-        "Café": "70",
+        "Caf\u00e9": "70",
         "Caramel": "0",
-        "Tiramisù": "20",
-        "Caramel Beurre salé": "0",
+        "Tiramis\u00f9": "20",
+        "Caramel Beurre sal\u00e9": "0",
         "Confiture de lait": "0",
         "Pistache": "10",
         "Cerise": "0"
@@ -241,12 +241,12 @@
 }{
     "input": {
         "Banane": "95",
-        "Réglisse": "0",
+        "R\u00e9glisse": "0",
         "Chocolat": "100",
         "Chocolat Gingembre": "50",
         "Cassis": "75",
         "Fraise Tagada": "75",
-        "Châtaigne": "97",
+        "Ch\u00e2taigne": "97",
         "Chocolat Piment": "90",
         "Cannelle": "50",
         "Poire": "95",
@@ -272,14 +272,14 @@
     "input": {
         "Olive": "0",
         "Chocolat": "32",
-        "Caramel Beurre salé": "46",
+        "Caramel Beurre sal\u00e9": "46",
         "Mandarine": "100",
         "Rhubarbe": "1",
-        "Pain d'épice": "0",
+        "Pain d'\u00e9pice": "0",
         "Tomate - Basilic": "0",
         "Riz au lait": "10",
         "Litchi": "0",
-        "Café": "3",
+        "Caf\u00e9": "3",
         "Citron Vert": "76",
         "Orange sanguine": "100"
     }
@@ -293,8 +293,8 @@
         "Mandarine": "56",
         "Fraise": "25",
         "Citron": "50",
-        "Mûre": "81",
-        "Bière": "0",
+        "M\u00fbre": "81",
+        "Bi\u00e8re": "0",
         "Cactus": "63",
         "Lavande": "100"
     }
@@ -311,7 +311,7 @@
         "Melon": "70",
         "Myrtille": "70",
         "Rose": "65",
-        "Châtaigne": "40"
+        "Ch\u00e2taigne": "40"
     }
 }{
     "input": {
@@ -321,9 +321,9 @@
         "Cerise": "43",
         "Coco": "52",
         "Riz au lait": "52",
-        "Caramel Beurre salé": "0",
+        "Caramel Beurre sal\u00e9": "0",
         "Amande": "5",
-        "Pain d'épice": "5",
+        "Pain d'\u00e9pice": "5",
         "Chocolat Blanc": "73",
         "Potimarron": "0",
         "Coquelicot": "0"
@@ -331,7 +331,7 @@
 }{
     "input": {
         "Cactus": "0",
-        "Mûre": "3",
+        "M\u00fbre": "3",
         "Mandarine": "100",
         "Myrtille": "88",
         "Mirabelle": "30",
@@ -340,7 +340,7 @@
         "Coco": "61",
         "Chocolat": "62",
         "Miel - Pignons": "89",
-        "Tiramisù": "90",
+        "Tiramis\u00f9": "90",
         "Avocat": "36"
     }
 }{
@@ -362,10 +362,10 @@
     "input": {
         "Oreo": "25",
         "Orange sanguine": "90",
-        "Bière": "0",
+        "Bi\u00e8re": "0",
         "Litchi": "9",
         "Lavande": "31",
-        "Châtaigne": "31",
+        "Ch\u00e2taigne": "31",
         "Fraise": "100",
         "Confiture de lait": "100",
         "Pistache": "33",
@@ -379,7 +379,7 @@
         "Nutella": "8",
         "Chocolat": "38",
         "Fraise Tagada": "100",
-        "Réglisse": "20",
+        "R\u00e9glisse": "20",
         "Framboise": "88",
         "Rhum-Raisins": "35",
         "Tomate - Basilic": "19",
@@ -391,24 +391,24 @@
 }{
     "input": {
         "Mandarine": "92",
-        "Tiramisù": "100",
+        "Tiramis\u00f9": "100",
         "Rhubarbe": "8",
         "Orange sanguine": "94",
         "Fraise Tagada": "100",
         "Orange": "95",
         "Cactus": "12",
-        "Bière": "4",
+        "Bi\u00e8re": "4",
         "Cannelle": "4",
         "Pollen Sauvage": "4",
         "Cerise": "39",
-        "Châtaigne": "5"
+        "Ch\u00e2taigne": "5"
     }
 }{
     "input": {
-        "Speculoos": "0",
+        "\tSpeculoos": "0",
         "Tomate - Basilic": "0",
         "Chocolat Blanc": "0",
-        "Pain d'épice": "0",
+        "Pain d'\u00e9pice": "0",
         "Vanille": "100",
         "Framboise": "90",
         "Kiwi": "38",
@@ -453,12 +453,12 @@
         "Chocolat Blanc": "20",
         "Tomate - Basilic": "15",
         "Lavande": "5",
-        "Speculoos": "0",
+        "\tSpeculoos": "0",
         "Confiture de lait": "30",
-        "Bière": "0",
+        "Bi\u00e8re": "0",
         "Fraise Tagada": "0",
         "Pistache": "100",
-        "Tiramisù": "0",
+        "Tiramis\u00f9": "0",
         "Chocolat Piment": "20",
         "Poire": "50",
         "Chewing-gum": "0"
@@ -472,18 +472,18 @@
         "Coco": "40",
         "Caramel": "20",
         "Oreo": "0",
-        "Réglisse": "0",
+        "R\u00e9glisse": "0",
         "Ananas": "50",
         "Amande": "100",
         "Fraise Tagada": "0",
-        "Caramel Beurre salé": "100"
+        "Caramel Beurre sal\u00e9": "100"
     }
 }{
     "input": {
         "Orange sanguine": "100",
         "Miel - Pignons": "100",
         "Figue": "100",
-        "Pain d'épice": "0",
+        "Pain d'\u00e9pice": "0",
         "Melon": "100",
         "Cassis": "100",
         "Cactus": "80",
@@ -506,18 +506,18 @@
         "Poire": "100",
         "Mangue": "100",
         "Orange sanguine": "100",
-        "Speculoos": "0"
+        "\tSpeculoos": "0"
     }
 }{
     "input": {
         "Amande": "100",
         "Pamplemousse": "100",
         "Litchi": "100",
-        "Mûre": "100",
+        "M\u00fbre": "100",
         "Figue": "100",
         "Pistache": "100",
         "Avocat": "0",
-        "Speculoos": "0",
+        "\tSpeculoos": "0",
         "Cassis": "100",
         "Fraise Tagada": "0",
         "Potimarron": "0",
@@ -526,29 +526,29 @@
 }{
     "input": {
         "Vanille": "100",
-        "Tiramisù": "0",
+        "Tiramis\u00f9": "0",
         "Dragibus": "0",
         "Mandarine": "0",
         "Banane": "0",
         "Tomate - Basilic": "0",
-        "Bière": "0",
+        "Bi\u00e8re": "0",
         "Chocolat": "0",
         "Figue": "100",
         "Cassis": "100",
         "Ananas": "100",
-        "Café": "100"
+        "Caf\u00e9": "100"
     }
 }{
     "input": {
         "Banane": "0",
         "Miel - Pignons": "100",
-        "Châtaigne": "100",
+        "Ch\u00e2taigne": "100",
         "Rose": "0",
-        "Pain d'épice": "0",
+        "Pain d'\u00e9pice": "0",
         "Orange": "0",
         "Coquelicot": "100",
         "Mangue": "100",
-        "Réglisse": "0",
+        "R\u00e9glisse": "0",
         "Framboise": "100",
         "Avocat": "0",
         "Cerise": "50"
@@ -556,16 +556,16 @@
 }{
     "input": {
         "Chocolat Piment": "100",
-        "Café": "100",
+        "Caf\u00e9": "100",
         "Abricot": "100",
-        "Tiramisù": "0",
+        "Tiramis\u00f9": "0",
         "Figue": "100",
-        "Châtaigne": "100",
+        "Ch\u00e2taigne": "100",
         "Cassis": "100",
         "Lavande": "0",
         "Pamplemousse": "100",
         "Orange": "0",
-        "Speculoos": "0",
+        "\tSpeculoos": "0",
         "Chocolat": "0"
     }
 }{
@@ -586,7 +586,7 @@
 }{
     "input": {
         "Olive": "0",
-        "Tiramisù": "0",
+        "Tiramis\u00f9": "0",
         "Tomate - Basilic": "0",
         "Mangue": "100",
         "Chocolat Piment": "100",
@@ -595,8 +595,8 @@
         "Citron": "100",
         "Lavande": "0",
         "Pamplemousse": "100",
-        "Bière": "0",
-        "Mûre": "100"
+        "Bi\u00e8re": "0",
+        "M\u00fbre": "100"
     }
 }{
     "input": {
@@ -604,10 +604,10 @@
         "Orange sanguine": "100",
         "Olive": "0",
         "Nougat": "0",
-        "Bière": "0",
-        "Caramel Beurre salé": "100",
+        "Bi\u00e8re": "0",
+        "Caramel Beurre sal\u00e9": "100",
         "Lavande": "0",
-        "Café": "100",
+        "Caf\u00e9": "100",
         "Oreo": "0",
         "Caramel": "50",
         "Dragibus": "0",
@@ -622,7 +622,7 @@
         "Pamplemousse": "100",
         "Myrtille": "100",
         "Chocolat Piment": "50",
-        "Châtaigne": "100",
+        "Ch\u00e2taigne": "100",
         "Olive": "0",
         "Orange": "0",
         "Fraise Tagada": "0",
@@ -646,15 +646,15 @@
 }{
     "input": {
         "Coquelicot": "30",
-        "Pain d'épice": "0",
+        "Pain d'\u00e9pice": "0",
         "Potimarron": "16",
         "Avocat": "0",
-        "Speculoos": "0",
-        "Mûre": "100",
+        "\tSpeculoos": "0",
+        "M\u00fbre": "100",
         "Riz au lait": "18",
         "Amande": "49",
         "Oreo": "0",
-        "Tiramisù": "0",
+        "Tiramis\u00f9": "0",
         "Fraise Tagada": "0",
         "Vanille": "100"
     }
@@ -662,22 +662,22 @@
     "input": {
         "Pamplemousse": "0",
         "Dragibus": "8",
-        "Châtaigne": "49",
-        "Café": "9",
+        "Ch\u00e2taigne": "49",
+        "Caf\u00e9": "9",
         "Pollen Sauvage": "10",
         "Rhubarbe": "19",
         "Orange": "0",
         "Miel - Pignons": "100",
         "Confiture de lait": "49",
         "Chocolat Piment": "7",
-        "Speculoos": "28",
+        "\tSpeculoos": "28",
         "Cassis": "0"
     }
 }{
     "input": {
         "Cookies": "36",
         "Mirabelle": "34",
-        "Bière": "8",
+        "Bi\u00e8re": "8",
         "Myrtille": "0",
         "Olive": "0",
         "Poire": "0",
@@ -686,6 +686,6 @@
         "Pamplemousse": "0",
         "Cannelle": "0",
         "Rhum-Raisins": "100",
-        "Réglisse": "18"
+        "R\u00e9glisse": "18"
     }
 }
