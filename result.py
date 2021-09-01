@@ -856,17 +856,18 @@ def recherche_a(T,gouts):
             for j in dic:
                 if dic[i] > dic[j]:
                     W[gouts.index(i),gouts.index(j)] += 1
-        for i in range(m):
-            for j in range(m):
-                if W[i,j] != 0:     #(W[i,j] + W[j,i] !=0):
-                    W[i,j] /= (W[i,j] + W[j,i])                 
-        alpha = np.zeros((m,m))
-        for i in range(m):
-            for j in range(i+1,m):
-                alpha[i,j] = abs(W[i,j] - W[j,i])
-                alpha[j,i] = alpha[i,j]
-        return np.mean(alpha) # a mon avis il reste beaucoup trop de zéros provenant des parfums non trouvés, il faudrait faire un masque
-f(T,gouts)
+    for i in range(m):
+        for j in range(m):
+            if W[i,j] != 0:     #(W[i,j] + W[j,i] !=0):
+                W[i,j] /= (W[i,j] + W[j,i])                 
+    alpha = []
+    for i in range(m):
+        for j in range(i+1,m):
+            if W[i,j] + W[j,i] != 0:
+                alpha.append(abs(W[i,j] - W[j,i]))
+            print(len(alpha))
+    return sum(alpha)/len(alpha)
+print(recherche_a(T,gouts))
 
 
         
