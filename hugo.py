@@ -8,8 +8,8 @@ import matplotlib.cm as cm
 def Borda(n):
     return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
 
-m = 20
-n = 30
+m = 150
+n = 5
 V = Borda(m)
 k = 3
 
@@ -196,7 +196,7 @@ def Opt(k,t,m,V,T):
 
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
-print(var(n,m,Borda(m),utilitarian))
+print(var(n,m,Borda(m),egalitarian))
 np.set_printoptions(precision=6)
 np.set_printoptions(suppress=True)
 #print(var(n,m,Borda(m),utilitarian))
@@ -205,3 +205,5 @@ np.set_printoptions(suppress=True)
 #print(optimal(n,m,Borda(m),utilitarian))
 #print(optimal(n,m,Borda(m),egalitarian))
 #print(optimal(n,m,Borda(m),nash))
+
+#test
