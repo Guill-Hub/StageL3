@@ -8,8 +8,8 @@ import matplotlib.cm as cm
 def Borda(n):
     return [0] + [ n - i + 1 for i in range(1,n+1)] # le premier element ne sert à rien
 
-m = 150
-n = 5
+m = 12
+n = 4
 V = Borda(m)
 k = 3
 
@@ -26,14 +26,13 @@ def utilitarian(x,y):
 def nash(x,y):
     return x * y
 
-def FC(k,t,m,V): #méomisation utile ?
-    return sum(V[k+1:t+k+1]) # on rajoute un +1 car la première valeur est un zéro
+def FC(k,t,m,V):
+    return sum(V[k+1:t+k+1]) # +1 because the first value is 0
 
 def U_cor(a,k,t,m,V,T):
     return a * FC(k,t,m,V) + (1-a) * G(i,k,t,m,V,T)
 
-def G(i,k,t,m,V,T):
-    #print(i,k,t) 
+def G(i,k,t,m,V,T): 
     """
     Sans perte de généralité on considère que l'agent classe les objets dans l'ordre 1...n.
     T[i,k,t] - i for the objects from {i,...,m}
@@ -57,7 +56,6 @@ def G(i,k,t,m,V,T):
         else:           
             T[i,k,t] = k/(m+1-i) * G(i+1,k-1,t,m,V,T) + (1 - k/(m+1-i)) * ( V[i] + G(i+1,k,t-1,m,V,T))
         
-    #print(i,k,t,T[i,k,t])
     return T[i,k,t]
     
 
@@ -91,15 +89,15 @@ def algo_verif(a,i,k,n,m,V,T,M,F):
         M[k,n,0,0] = m   # set as computed
         if n == 1 :      # if there is just one more agent
             M[k,1,i,0] = m - k  # then he take all objets lefts
-            M[k,1,i,1] = a * sum(V[k+1::]) + (1-a) * sum(V)* (1-k/m)
-            #print(V[k+2::])
+            M[k,1,i,1] = a * sum(V)* (1-k/m)  + (1-a) * sum(V[k+1::])
+            # sum(V)* (1-k/m) because every object can be selected and has not been taken before with the probability of 1-k/m with FI, sum(V[k+1::]) is the rest on FC
             M[k,1,0,1] = M[k,1,i,1] #there is one agent so the social welfare is its utility
             
         else:
                         
             U_max = 0   #  we want to keep the utility which optimize the social welfare
             for t in range(m-k+1): # we will give t=0...(m-k) objets to agent i
-                U_first = a * FC(k,t,m,V) + (1-a) * E(k,t,m,V,T) # we compute his expected utility
+                U_first = a * E(k,t,m,V,T) + (1-a) * FC(k,t,m,V) # we compute his expected utility
                 partiel = algo_verif(a,i+1,k+t,n-1,m,V,T,M,F) # compute the sub-problem
                 min_U = F(partiel[0][1],U_first) # compute the expected social welfare
                 #print(t,partiel)
@@ -117,9 +115,16 @@ def var(a,n,m,V,F):
     M = np.full((m+1,n+1,n+1,2),0.)
     return algo_verif(a,1,0,n,m,V,T,M,F)
 
+
+V_exp = [0, 97.08928571428571, 85.92857142857143, 79.28571428571429, 69.55357142857143, 63.017857142857146, 50.625, 40.642857142857146, 29.785714285714285, 22.053571428571427, 15.5, 9.928571428571429, 5.196428571428571]
+
 np.set_printoptions(precision=3)
 np.set_printoptions(suppress=True)
-print(var(0.4,n,m,Borda(m),egalitarian))
+print(var(0.74,n,m,V_exp,egalitarian))
+
+print(var(0.74,n,m,V_exp,utilitarian))
+
+print(var(0.74,n,m,V_exp,nash))
 #print(X[1,1] + X[2,1] + X[3,1])
 print(Borda(m))
 print(sum(Borda(m)))
