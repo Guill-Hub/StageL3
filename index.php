@@ -106,16 +106,20 @@ function createBiddingSections() {
   // html += "<div id='ma_page'><h1>Quelles glaces aimez-vous? </h1>";
   html += "<div id='ma_page'><h1>Which ice-cream flavor do you love ? </h1>";
   /* html += "<h2> Ce sondage a pour but de connaître la façon dont est répartie l'intensité de vos préférences dans un domaine qui intéresse beaucoup de monde : différents parfums de glace. Si vous n'aimez pas les sorbets ni les glaces, ce sondage va sans doute vous ennuyer et nous vous suggérons de ne pas le faire. Il demande 3 minutes maximum . </h2>" */
-    html += "<h2>Ce sondage a pour but de connaître la façon dont est répartie l'intensité de vos préférences dans un domaine qui intéresse beaucoup de monde : différents parfums de glace. Si vous n'aimez pas les sorbets ni les glaces, ce sondage va sans doute vous ennuyer et nous vous suggérons de ne pas le faire. Il demande 3 minutes maximum . </h2>"
-  html += " <div> <p class=\"property-info\">Première question : parmi les 12 parfums suivants : </br> </p>"
+    html += "<h2> The aim of this survey is to observe the distribution of the intensity of your preferences in an interesting topic for many: ice-cream flavors. If you like neither ice-creams nor sorbets, this survey will probably bore you and we would suggest you not to do it. </h2>"
+  /*html += " <div> <p class=\"property-info\">Première question : parmi les 12 parfums suivants : </br> </p>"*/
+  html += " <div> <p class=\"property-info\">First question : from the following twelve flavors: </br> </p>"
   var id_pref = 0;
   var id_pire = 0;
   //html += "<div class="dropdown">"
   //html += "<button onclick="myFunction()" class="dropbtn">Dropdown</button>"
   //html += "<div id="myDropdown" class="dropdown-content">"
-  html += "<div> Quel est le parfum que vous préférez  ? </br> "
+  /* html += "<div> Quel est le parfum que vous préférez  ? </br> " */
+  html += "<div> Which one is your favorite? </br> "
+  /*html +=  '<select name="pref" id="pref" onchange="change_text();">\n'
+  html +=  "<option value=\"" + -1 + "\"> Choisir un parfum </option>" */
   html +=  '<select name="pref" id="pref" onchange="change_text();">\n'
-  html +=  "<option value=\"" + -1 + "\"> Choisir un parfum </option>"
+  html +=  "<option value=\"" + -1 + "\"> Select a flavor: </option>"
     var j;
     for (j=0; j < nb_selec_taste; j++) {
         html += " <option value=\"" + j + "\">" + selec_taste[j] + "</option>"
@@ -133,7 +137,8 @@ function createBiddingSections() {
     */
   var pref = selec_taste[0];
   
-  html += "<div> <p id=\"change\" > Nous allons vous demander d'exprimer vos préférences sur les autres parfums, sachant que nous vous imposons la calibration suivante : votre parfum préféré vaut 100 points. Vous pouvez identifier le nombre de points x que vous attribuez à un parfum de la façon suivante : </br> x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, ou de subir un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré et 100 - x % de chance de ne rien avoir </p>"
+  /*html += "<div> <p id=\"change\" > Nous allons vous demander d'exprimer vos préférences sur les autres parfums, sachant que nous vous imposons la calibration suivante : votre parfum préféré vaut 100 points. Vous pouvez identifier le nombre de points x que vous attribuez à un parfum de la façon suivante : </br> x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, ou de subir un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré et 100 - x % de chance de ne rien avoir </p>"*/
+  html += "<div> <p id=\"change\" > We will ask you to express your preferences among the other flavors, knowing the following constraint is imposed : your favorite flavor is worth 100 points. One way to evaluate the number of points to assosciate to one flavor is the following : </br> x is the number such that it is equivalent to you to either be certain of having this flavor, either having x% chance of getting this flavor and (100-x)% chance of getting nothing at all. </p>"
     html += " <p class=\"property-info\" id='exemple'></p> </div>"
   var i = 0;
     html += " <form method=\"post\" action=\"recup.php\">";
@@ -205,12 +210,12 @@ function libre(i){
 
 function change_text(){
     pref = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
-    $("#change").text("Nous allons vous demander d'exprimer vos préférences sur les autres parfums, sachant que nous vous imposons la calibration suivante : le parfum " + selec_taste[pref] + " vaut 100 points (on vous le redemandera; c'est normal). La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, que de de subir un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, sinon rien ");
-    var newText = "Par exemple : </br>";
-    newText += "* S'il vous est égal d'avoir une boule de " + libre(1) + ", ou d'avoir une chance sur deux d'avoir le parfum " + selec_taste[pref] +" et une chance sur deux de ne rien avoir, alors vous pouvez donner une valeur de 50 à " +  libre(1) + ".</br>";
-    newText += "* S'il vous est égal d'avoir une boule de " + libre(2) + ", ou d'avoir une chance sur trois d'avoir le parfum " + selec_taste[pref] +" et deux chances sur trois de ne rien avoir, alors vous pouvez donner une valeur de 33 à " + libre(2) + ".</br>";
-    newText += "* S'il vous est égal d'avoir une boule de " + libre(3) + ", ou d'avoir quatre-vingt-dix pourcents de chance d'avoir le parfum " + selec_taste[pref] +" et dix pourcents de chance de ne rien avoir, alors vous pouvez donner une valeur de 90 à " + libre(3) + ".</br>";
-    newText += "* S'il vous est égal d'avoir une boule de " + libre(4) + ", ou d'avoir vingt pourcents de chance d'avoir le parfum " + selec_taste[pref] +" et quatre-vingt pourcents de chance de ne rien avoir, alors vous pouvez donner une valeur de 20 à " + libre(4) + ".</br>";
+    $("#change").text(" We will ask you to express your preferences among the other flavors, knowing the following constraint is imposed : " + selec_taste[pref] + " worth 100 points. One way to evaluate the number of points to assosciate to one flavor is the following : </br> x is the number such that it is equivalent to you to either be certain of having this flavor, either having x% chance of getting this flavor and (100-x)% chance of getting nothing at all.
+    var newText = "For example : </br>";
+    /*newText += "* S'il vous est égal d'avoir une boule de " + libre(1) + ", ou d'avoir une chance sur deux d'avoir le parfum " + selec_taste[pref] +" et une chance sur deux de ne rien avoir, alors vous pouvez donner une valeur de 50 à " +  libre(1) + ".</br>"; */
+     newText += "* If it is equivalent to you to be certain of either having " + libre(1) + ", either having 50% chance of getting " + selec_taste[pref] +" and 50% chance of getting nothing at all, then you can give 50 points to it. " +  libre(1) + ".</br>";
+     newText += "* If it is equivalent to you to be certain of either having " + libre(2) + ", either having 30% chance of getting " + selec_taste[pref] +" and 70% chance of getting nothing at all, then you can give 30 points to it. " +  libre(2) + ".</br>";
+     newText += "* If it is equivalent to you to be certain of either having " + libre(3) + ", either having 90% chance of getting " + selec_taste[pref] +" and 10% chance of getting nothing at all, then you can give 90 points to it. " +  libre(3) + ".</br>";
     $("#exemple").html(newText);
     /*for (j=0; j < nb_selec_taste; j++){
         if (j==pire){
@@ -341,7 +346,8 @@ function checkBids() {
     $('#results-table').html('');
     $('#fairness-table').html('');
     $('#submit-demo').hide();
-    displayError("Votre participation a bien été prise en compte, merci\n Vous pourrez recommencer dans 2 secondes","bidding-error-0");
+    /*displayError("Votre participation a bien été prise en compte, merci\n Vous pourrez recommencer dans 2 secondes","bidding-error-0");*/
+    displayError("Your participation have been taken into account. You will be able to restart in two seconds.","bidding-error-0");
     json = buildJSON();
     $.ajax({
       type: "POST",
