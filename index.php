@@ -164,8 +164,8 @@ function createBiddingSections() {
     
     html += "        <div class='calc-control'>";
     html += "          <div class='btns'>";
-    html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Réinitialiser</button>";
-    html += "            <button type='button' class='btn update' onclick='return checkBids()'>Envoyer</button>";
+    html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Reset</button>";
+    html += "            <button type='button' class='btn update' onclick='return checkBids()'>Send</button>";
    // html += "            <input type=\"submit\" class='btn update' value=\"Valider\" />";
     html += "          </div>";
     html += "        </div>";
@@ -210,7 +210,7 @@ function libre(i){
 
 function change_text(){
     pref = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
-    $("#change").text(" We will ask you to express your preferences among the other flavors, knowing the following constraint is imposed : " + selec_taste[pref] + " worth 100 points. One way to evaluate the number of points to assosciate to one flavor is the following : </br> x is the number such that it is equivalent to you to either be certain of having this flavor, either having x% chance of getting this flavor and (100-x)% chance of getting nothing at all.
+    $("#change").text(" We will ask you to express your preferences among the other flavors, knowing the following constraint is imposed : " + selec_taste[pref] + " worth 100 points. One way to evaluate the number of points to assosciate to one flavor is the following : </br> x is the number such that it is equivalent to you to either be certain of having this flavor, either having x% chance of getting this flavor and (100-x)% chance of getting nothing at all.")
     var newText = "For example : </br>";
     /*newText += "* S'il vous est égal d'avoir une boule de " + libre(1) + ", ou d'avoir une chance sur deux d'avoir le parfum " + selec_taste[pref] +" et une chance sur deux de ne rien avoir, alors vous pouvez donner une valeur de 50 à " +  libre(1) + ".</br>"; */
      newText += "* If it is equivalent to you to be certain of either having " + libre(1) + ", either having 50% chance of getting " + selec_taste[pref] +" and 50% chance of getting nothing at all, then you can give 50 points to it. " +  libre(1) + ".</br>";
