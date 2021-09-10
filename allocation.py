@@ -82,7 +82,7 @@ def Alloc_aux(a,i,k,l,m,V,T,M,F):
     - m objects in total
     - V the vector of score
     - T array used for the memoisation of U_FI(k,t)
-    - M array used for the memoisation of G(i,r)
+    - M array used for the memoisation of G(i,l)
     
     """
     
@@ -96,20 +96,19 @@ def Alloc_aux(a,i,k,l,m,V,T,M,F):
             
         else:
                         
-            U_max = 0   #  we want to keep the utility which optimize the social welfare
+            SW_max = 0   #  we want to keep the utility which optimize the social welfare
             for t in range(m-k+1): # we will give t=0...(m-k) objets to agent i
-                U_first = a * U_FI(k,t,m,V,T) + (1-a) * U_FC(k,t,m,V) # we compute his expected utility
-                partiel = algo_verif(a,i+1,k+t,l-1,m,V,T,M,F) # compute the sub-problem solution
-                min_U = F(partiel[0][1],U_first) # compute the expected social welfare
-                #print(t,partiel)
-                if min_U > U_max: #if the policy maximize the social welfare
-                    M[k,n] = copy.deepcopy(partiel)  # save policy of the sub-problem
-                    M[k,n,0,1] = min_U # social welfare
-                    M[k,n,i,0] = t #numbers of objects given to agent i
-                    M[k,n,i,1] = U_first #expected utility of agent i 
-                    U_max = min_U
+                U_k = a * U_FI(k,t,m,V,T) + (1-a) * U_FC(k,t,m,V) # we compute his expected utility
+                partiel = Alloc_aux(a,i+1,k+t,l-1,m,V,T,M,F) # compute the sub-problem solution
+                SW = F(partiel[0][1],U_k) # compute the expected social welfare
+                if SW > SW_max: #if the policy maximize the social welfare
+                    M[k,l] = copy.deepcopy(partiel)  # save policy of the sub-problem
+                    M[k,l,0,1] = SW # change the social welfare
+                    M[k,l,i,0] = t # add the number of objects given to agent i
+                    M[k,l,i,1] = U_k #add the expected utility of agent i 
+                    SW_max = SW
                                 
-    return M[k,n]
+    return M[k,l]
 
 def Allocation(a,n,m,V,F):
     """
@@ -123,3 +122,7 @@ def Allocation(a,n,m,V,F):
     T = np.full((m+1,m+1,m+1),-1.)
     M = np.full((m+1,n+1,n+1,2),0.)
     return Alloc_aux(a,1,0,n,m,V,T,M,F)
+
+n = 5
+m = 30
+print(Allocation(1,n,m,Borda(m),egalitarian))
