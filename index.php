@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <html>
   <head>
-    <title>Exprérience Préférences</title>
+    <title>Expérience Préférences</title>
     <link href="application-3f30be57b6c118e639cf350d34fb118c.css" media="all" rel="stylesheet" type="text/css" />
 
     <script src="application-4fd66bbc1d249312453de646bbc94e92.js" type="text/javascript"></script>
@@ -36,10 +36,13 @@ function randomize(tab) {
     return tab;
 }
 
-var taste = ["Kiwi" ,"Litchi", "Mangue", "Mandarine", "Melon", "Mirabelle", "Mûre", "Myrtille", "Orange", "Orange sanguine","Abricot","Ananas","Banane","Citron", "Citron Vert", "Cerise", "Cassis" , "Framboise", "Coco", "Figue", "Fraise", "Fruit de la passion", "Poire", "Rhubarbe", "Pamplemousse", "Miel - Pignons", "Tiramisù" , "Chocolat Gingembre" , "Fraise Tagada" , "Nougat", "	Speculoos", "Café", "Confiture de lait" , "Pistache", "Réglisse", "Lavande", "Caramel", "Dragibus" , "Rose", "Avocat","Chewing-gum", "Olive", "Chocolat Piment", "Tomate - Basilic", "Cannelle", "Chocolat Blanc", "Chocolat", "Amande", "Coquelicot", "Cookies", "Pain d'épice", "Cactus", "Bière", "Oreo", "Nutella", "Vanille", "Barbe à Papa", "Rhum-Raisins", "Potimarron", "Châtaigne", "Pollen Sauvage", "Riz au lait", "Caramel Beurre salé"]
+var taste = ["Kiwi" ,"Litchi", "Mangue", "Mandarine", "Melon", "Mirabelle", "Mûre", "Myrtille", "Orange", "Orange sanguine","Abricot","Ananas","Banane","Citron", "Citron Vert", "Cerise", "Cassis" , "Framboise", "Coco", "Figue", "Fraise", "Fruit de la passion", "Poire", "Rhubarbe", "Pamplemousse", "Miel - Pignons", "Tiramisù" , "Chocolat Gingembre" , "Fraise Tagada" , "Nougat", "Speculoos", "Café", "Confiture de lait" , "Pistache", "Réglisse", "Lavande", "Caramel", "Dragibus" , "Rose", "Avocat","Chewing-gum", "Olive", "Chocolat Piment", "Tomate - Basilic", "Cannelle", "Chocolat Blanc", "Chocolat", "Amande", "Coquelicot", "Cookies", "Pain d'épice", "Cactus", "Bière", "Oreo", "Nutella", "Vanille", "Barbe à Papa", "Rhum-Raisins", "Potimarron", "Châtaigne", "Pollen Sauvage", "Riz au lait", "Caramel Beurre salé"]
+
+var taste = ["Kiwi","Litchi","Mango","Mandarin","Melon","Mirabelle","Blackberry","Blueberry","Orange","Blood orange","Apricot","Pineapple","Banana","Lemon", "Lime", "Cherry","Cassis","Raspberry","Coco","Fig","Strawberry","Passion fruit","Pear","Rhubarb","Grapefruit","Honey - Pine nuts","Tiramisu","Chocolate ginger","Tagada strawberry","Nougat","Speculoos","Coffee","Milk jam","Pistachio","Licorice","Lavender","Caramel","Dragibus","Avocado","Chewing gum", "Olive","Chili chocolate", "Tomato - Basil","Cinnamon","White chocolate","Chocolate","Almond","Poppy","Cookies","Gingerbread","Cactus","Beer","Oreo", "Nutella", "Vanilla", "Candy floss", "Rum - Raisin", "Pumpkin", "Chestnut", "Wild pollen", "Rice pudding", "Salted butter caramel"]
+
 taste = randomize(taste)
 var housemates = ["user"];
-var nb_selec_taste = 15
+var nb_selec_taste = 12
 var selec_taste = selecTaste(taste)
 var nb_attempt = 0;
 
@@ -48,7 +51,7 @@ console.log(selec_taste)
 var rent = 100;
 var sum = [0, 0, 0];
 var polling_attempts = -1;
-var max_attempts = 15;
+var max_attempts = 12;
 var id = -1;
 var pwd = "";
 
@@ -100,9 +103,11 @@ function createBiddingSections() {
   var housemates_copy = housemates;
   var bidding_sections = new Array();
   var html = "";
-  html += "<div id='ma_page'><h1>Quelles glaces aimez-vous? </h1>";
-  html += "<h2> Ce sondage a pour but de connaître la façon dont sont réparties l'intensité de vos préférences dans un domaine qui intéresse beaucoup de monde : différents parfums de glace. Si vous n'aimez pas les sorbets ni les glaces, ce sondage va sans doute vous ennuyer et nous vous suggérons de ne pas le faire. Il demande 3 minutes maximum . </h2>"
-  html += " <div> <p class=\"property-info\">Premièrement parmis les 15 parfums suivants: </br> </p>"
+  // html += "<div id='ma_page'><h1>Quelles glaces aimez-vous? </h1>";
+  html += "<div id='ma_page'><h1>Which ice-cream flavor do you love ? </h1>";
+  /* html += "<h2> Ce sondage a pour but de connaître la façon dont est répartie l'intensité de vos préférences dans un domaine qui intéresse beaucoup de monde : différents parfums de glace. Si vous n'aimez pas les sorbets ni les glaces, ce sondage va sans doute vous ennuyer et nous vous suggérons de ne pas le faire. Il demande 3 minutes maximum . </h2>" */
+    html += "<h2>Ce sondage a pour but de connaître la façon dont est répartie l'intensité de vos préférences dans un domaine qui intéresse beaucoup de monde : différents parfums de glace. Si vous n'aimez pas les sorbets ni les glaces, ce sondage va sans doute vous ennuyer et nous vous suggérons de ne pas le faire. Il demande 3 minutes maximum . </h2>"
+  html += " <div> <p class=\"property-info\">Première question : parmi les 12 parfums suivants : </br> </p>"
   var id_pref = 0;
   var id_pire = 0;
   //html += "<div class="dropdown">"
@@ -115,7 +120,7 @@ function createBiddingSections() {
     for (j=0; j < nb_selec_taste; j++) {
         html += " <option value=\"" + j + "\">" + selec_taste[j] + "</option>"
     };
-  html += "</select> </div></br>"0
+  html += "</select> </div></br>" /*
   html += "<div>Quel est le parfum que vous aimez le moins  ? </br>" 
   html +=  '<select name="pire" id="pire" onchange="change_text();">\n'
   html +=  "<option value=\"" + -1 + "\"> Choisir un parfum </option>"
@@ -124,10 +129,11 @@ function createBiddingSections() {
         html += " <option value=\"" + j + "\">" + selec_taste[j] + "</option>"
     };
   html += "</select> </div></br>" 
-  var pref = selec_taste[0];
   var pire = selec_taste[0];
+    */
+  var pref = selec_taste[0];
   
-  html += "<div> <p id=\"change\" > Nous allons vous demander d'exprimer vos préférences sur les autres différents parfums, sachant que nous vous imposons la calibration suivante : votre parfum préféré vaut 100 points et le parfum que vous aimez le moins vaut 0 point . La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. </p>"
+  html += "<div> <p id=\"change\" > Nous allons vous demander d'exprimer vos préférences sur les autres parfums, sachant que nous vous imposons la calibration suivante : votre parfum préféré vaut 100 points. Vous pouvez identifier le nombre de points x que vous attribuez à un parfum de la façon suivante : </br> x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, ou de subir un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré et 100 - x % de chance de ne rien avoir </p>"
     html += " <p class=\"property-info\" id='exemple'></p> </div>"
   var i = 0;
     html += " <form method=\"post\" action=\"recup.php\">";
@@ -156,9 +162,6 @@ function createBiddingSections() {
     html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Réinitialiser</button>";
     html += "            <button type='button' class='btn update' onclick='return checkBids()'>Envoyer</button>";
    // html += "            <input type=\"submit\" class='btn update' value=\"Valider\" />";
-    html += "          </div>";
-    html += "          <div class='totals'>";
-    html += "            <p><strong>Current Total:</strong> <span id = 'sum-" + i + "'>0</span></p>";
     html += "          </div>";
     html += "        </div>";
     html += "      </div>";
@@ -194,10 +197,7 @@ function createBiddingSections() {
 function libre(i){
     var x = i
     pref = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
-    pire = document.getElementById('pire').options[document.getElementById('pire').selectedIndex].value;
-    if (x==pire || x==pref){
-        x += 5
-    } if (x==pire || x==pref){
+    if (x==pref){
         x += 5
     }
     return selec_taste[x]
@@ -205,9 +205,13 @@ function libre(i){
 
 function change_text(){
     pref = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
-    pire = document.getElementById('pire').options[document.getElementById('pire').selectedIndex].value;
-    $("#change").text("Nous allons vous demander d'exprimer vos préférences sur les autres différents parfums, sachant que nous vous imposons la calibration suivante : le parfum " + selec_taste[pref] + " vaut 100 points et le parfum " + selec_taste[pire] + " vaut 0 point (on vous redemandera vos préférence sur  " + selec_taste[pref] + " et " + selec_taste[pire] + "; c'est normal). La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, et de subit un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, et 100-x % d'avoir celui que vous aimez le moins. ");
-    $("#exemple").html("Par exemple : </br>* S'il vous est égal d'avoir une boule de " + libre(2) + " que d'avoir une chance sur deux d'avoir le parfum " + selec_taste[pref] + " ou " + selec_taste[pire] + " vous pouvez donner une valeur 50 à " + libre(2) +".</br>* S'il vous est indifférent d'avoir " + libre(1) + " avec certitude, et " + selec_taste[pref] + " avec une chance sur trois et " + selec_taste[pire] + " avec deux chances sur trois, vous pouvez donner une valeur 33 à " + libre(1) +". </br>* S'il vous est indifférent d'avoir " + libre(3) + " avec certitude, et " + selec_taste[pref] + " avec quatre-vingt-dix pourcents de chance et " + selec_taste[pire] + " avec dix pourcents de chance, vous pouvez donner une valeur 90 à " + libre(3) +". </br>* S'il vous est indifférent d'avoir " + libre(4) + " avec certitude, et " + selec_taste[pref] + " avec vingts pourcents de chance et " + selec_taste[pire] + " avec quatre-vingt pourcents de chance, vous pouvez donner une valeur 20 à " + libre(4) +". </br>")
+    $("#change").text("Nous allons vous demander d'exprimer vos préférences sur les autres parfums, sachant que nous vous imposons la calibration suivante : le parfum " + selec_taste[pref] + " vaut 100 points (on vous le redemandera; c'est normal). La façon dont vous pouvez identifier le nombre de points x que vous attribuez à un parfum : x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, que de de subir un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré, sinon rien ");
+    var newText = "Par exemple : </br>";
+    newText += "* S'il vous est égal d'avoir une boule de " + libre(1) + ", ou d'avoir une chance sur deux d'avoir le parfum " + selec_taste[pref] +" et une chance sur deux de ne rien avoir, alors vous pouvez donner une valeur de 50 à " +  libre(1) + ".</br>";
+    newText += "* S'il vous est égal d'avoir une boule de " + libre(2) + ", ou d'avoir une chance sur trois d'avoir le parfum " + selec_taste[pref] +" et deux chances sur trois de ne rien avoir, alors vous pouvez donner une valeur de 33 à " + libre(2) + ".</br>";
+    newText += "* S'il vous est égal d'avoir une boule de " + libre(3) + ", ou d'avoir quatre-vingt-dix pourcents de chance d'avoir le parfum " + selec_taste[pref] +" et dix pourcents de chance de ne rien avoir, alors vous pouvez donner une valeur de 90 à " + libre(3) + ".</br>";
+    newText += "* S'il vous est égal d'avoir une boule de " + libre(4) + ", ou d'avoir vingt pourcents de chance d'avoir le parfum " + selec_taste[pref] +" et quatre-vingt pourcents de chance de ne rien avoir, alors vous pouvez donner une valeur de 20 à " + libre(4) + ".</br>";
+    $("#exemple").html(newText);
     /*for (j=0; j < nb_selec_taste; j++){
         if (j==pire){
             $("#values_0_" + j).val(0);
