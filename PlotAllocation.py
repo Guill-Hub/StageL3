@@ -35,7 +35,7 @@ def m_variation(a,n,m,S,F,step):
     M = []
     O = [ [] for i in range(n)]
     U = [ [] for i in range(n)]
-    for nb_object in range(n,m,step):
+    for nb_object in range(n,m+step,step):
         M.append(nb_object)
         V = S(nb_object)
         alloc = Allocation(a,n,nb_object,V,F)
@@ -77,7 +77,7 @@ def alpha_variation(n,m,S,F,step):
         alloc = Allocation(alpha,n,m,V,F)
         print(m,alloc)
         for agent in range(1,n+1):
-            O[agent-1].append(alloc[agent][0]/m)
+            O[agent-1].append(alloc[agent][0])
             U[agent-1].append(alloc[agent][1])
     print(O,U)
     fig, axs = plt.subplots(1, 2, constrained_layout=True)
@@ -91,7 +91,7 @@ def alpha_variation(n,m,S,F,step):
     axs[1].stackplot(M,O)
     axs[1].set_title('Objects')
     axs[1].set_xlabel('alpha')
-    axs[1].set_ylabel('Proportion of objects')
+    axs[1].set_ylabel('Number of Object per agent')
     L = []
     for i in range(1,n+1):
         L.append("Agent " + str(i))
@@ -101,20 +101,20 @@ def alpha_variation(n,m,S,F,step):
     plt.legend()
     plt.show()
     
-def m_variation(a,n,m,S,F,step):
+def n_variation(a,n,m,S,F,step):
     M = []
     O = [ [] for i in range(n)]
     U = [ [] for i in range(n)]
     V = S(m)
-    for nb_agent in range(n,m,step):
+    for nb_agent in range(1,n+step,step):
         M.append(nb_agent)
         alloc = Allocation(a,nb_agent,m,V,F)
         Su = SumU(alloc)
-        print(nb_object,alloc)
+        print(m,alloc)
         for agent in range(1,n+1):
             if agent <= nb_agent:
-                O[agent-1].append(alloc[agent][0]/nb_object)
-                U[agent-1].append(alloc[agent][1]/Su)
+                O[agent-1].append(alloc[agent][0])
+                U[agent-1].append(alloc[agent][1])
             else:
                 O[agent-1].append(0)
                 U[agent-1].append(0)
@@ -124,20 +124,18 @@ def m_variation(a,n,m,S,F,step):
     axs[0].set_title('Utility')
     axs[0].set_xlabel('n')
     axs[0].set_ylabel('Utility per agent')
-    title = "1 to " + str(n) + " agents sharing " + str(m) + " objects, with alpha = " + stra(a) + " " + S.__name__ + " scoring vector and " + F.__name__ + " social-welfare"
+    title = "1 to " + str(n) + " agents sharing " + str(m) + " objects, with alpha = " + str(a) + " " + S.__name__ + " scoring vector and " + F.__name__ + " social-welfare"
     fig.suptitle(title, fontsize=16)
 
     axs[1].stackplot(M,O)
     axs[1].set_title('Objects')
     axs[1].set_xlabel('n')
-    axs[1].set_ylabel('Proportion of objects')
+    axs[1].set_ylabel('Number of object per agent')
     L = []
     for i in range(1,n+1):
         L.append("Agent " + str(i))
     fig.legend(L)
 
-
-    plt.legend()
     plt.show()
     
 
@@ -145,5 +143,6 @@ def m_variation(a,n,m,S,F,step):
     
 
 #print(Allocation(1,n,m,Borda(m),egalitarian))
-#m_variation(1,n,m,Lexicographic,egalitarian,5)
-alpha_variation(n,m,Lexicographic,egalitarian,0.1)
+m_variation(1,n,m,Lexicographic,egalitarian,5)
+#alpha_variation(n,m,Lexicographic,egalitarian,0.1)
+#n_variation(1,n,m,Lexicographic,egalitarian,1)
