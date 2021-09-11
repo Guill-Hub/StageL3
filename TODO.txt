@@ -1,0 +1,4 @@
+- do read me file -> explain what are the different files ; what files should be used and in what way.
+- name files in a way which makes the code anonymous
+- document properly the code
+- comments should be in english 
