@@ -139,10 +139,13 @@ def n_variation(a,n,m,S,F,step):
     plt.show()
     
 
-
+a = 0.5
+n = 5
+m = 30
+V = Borda
+F = egalitarian
     
 
-#print(Allocation(1,n,m,Borda(m),egalitarian))
-m_variation(1,n,m,Lexicographic,egalitarian,5)
-#alpha_variation(n,m,Lexicographic,egalitarian,0.1)
-#n_variation(1,n,m,Lexicographic,egalitarian,1)
+m_variation(a,n,m,V,F,5)
+#alpha_variation(n,m,V,F,0.1)
+#n_variation(a,n,m,V,F,1)

@@ -1,0 +1,8 @@
+The algorithm allowing to find the optimal solution is in the file allocation.py.
+You can change : n the number of agent, m the number of object, a the coefficient of correlation, V the scoring vector and F the social welfare directly in the file and then lauching the script to compute the optimal solution.
+The optimal solution is a matrix M such as M[0,0] is the number of object shared, M[0,1] the expected social welfare and for every agent i M[i,0] is the number of object taken by agent i and M[i,1] her expected utility.
+
+To plot the data there is 3 fonctions (V and F can still be configurated):
+1- m_variation : n and a are fixed and m is variying from n to m (you can change the size step to decrease the computation time)
+2- alpha_variation n and m are fixed and alpha variying from 0 to 1 with a step size included in ]0;1[
+3- n_variation : m and a are fixed and n is variying from 1 to n (you can change the size step to decrease the computation time)

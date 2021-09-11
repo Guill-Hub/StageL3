@@ -1,9 +1,5 @@
-from math import factorial
 import numpy as np
-import matplotlib.pyplot as plt
 import copy
-
-import matplotlib.cm as cm
 
 # Scoring vector
 
@@ -123,6 +119,11 @@ def Allocation(a,n,m,V,F):
     M = np.full((m+1,n+1,n+1,2),0.)
     return Alloc_aux(a,1,0,n,m,V,T,M,F)
 
+a = 0.5
 n = 5
 m = 30
-print(Allocation(1,n,m,Borda(m),egalitarian))
+V = Borda(m)
+F = egalitarian
+
+
+print(Allocation(a,n,m,V,F))
