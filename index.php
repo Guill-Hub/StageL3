@@ -55,6 +55,12 @@ var max_attempts = 12;
 var id = -1;
 var pwd = "";
 
+var enonce = Math.random() ;
+if (enonce < 0.5){
+enonce = 0;}
+else {
+enonce = 1;}
+
 
 function selecTaste(taste){
     taste = randomize(taste)
@@ -108,13 +114,15 @@ function createBiddingSections() {
   /* html += "<h2> Ce sondage a pour but de connaître la façon dont est répartie l'intensité de vos préférences dans un domaine qui intéresse beaucoup de monde : différents parfums de glace. Si vous n'aimez pas les sorbets ni les glaces, ce sondage va sans doute vous ennuyer et nous vous suggérons de ne pas le faire. Il demande 3 minutes maximum . </h2>" */
     html += "<h2> The aim of this survey is to observe the distribution of the intensity of your preferences in an interesting topic for many: ice-cream flavors. If you like neither ice-creams nor sorbets, this survey will probably bore you and we would suggest you not to do it. </h2>"
   /*html += " <div> <p class=\"property-info\">Première question : parmi les 12 parfums suivants : </br> </p>"*/
-  html += " <div> <p class=\"property-info\">First question : from the following twelve flavors: </br> </p>"
-  var id_pref = 0;
-  var id_pire = 0;
   //html += "<div class="dropdown">"
   //html += "<button onclick="myFunction()" class="dropbtn">Dropdown</button>"
   //html += "<div id="myDropdown" class="dropdown-content">"
   /* html += "<div> Quel est le parfum que vous préférez  ? </br> " */
+
+  if (enonce == 0) {
+    html += " <div> <p class=\"property-info\">First question : from the following twelve flavors: </br> </p>"
+    var id_pref = 0;
+    var id_pire = 0;
   html += "<div> Which one is your favorite? </br> "
   /*html +=  '<select name="pref" id="pref" onchange="change_text();">\n'
   html +=  "<option value=\"" + -1 + "\"> Choisir un parfum </option>" */
@@ -138,8 +146,15 @@ function createBiddingSections() {
   var pref = selec_taste[0];
   
   /*html += "<div> <p id=\"change\" > Nous allons vous demander d'exprimer vos préférences sur les autres parfums, sachant que nous vous imposons la calibration suivante : votre parfum préféré vaut 100 points. Vous pouvez identifier le nombre de points x que vous attribuez à un parfum de la façon suivante : </br> x est le nombre tel qu'il vous est égal d'avoir ce parfum avec certitude, ou de subir un tirage au sort où vous aurez x % de chance d'avoir votre parfum préféré et 100 - x % de chance de ne rien avoir </p>"*/
-  html += "<div> <p id=\"change\" > We will ask you to express your preferences among the other flavors, knowing the following constraint is imposed : your favorite flavor is worth 100 points. One way to evaluate the number of points to assosciate to one flavor is the following : </br> x is the number such that it is equivalent to you to either be certain of having this flavor, either having x% chance of getting this flavor and (100-x)% chance of getting nothing at all. </p>"
-    html += " <p class=\"property-info\" id='exemple'></p> </div>"
+  html += "<div> <p id=\"change\" > We will ask you to express your preferences among the other flavors, knowing the following constraint is imposed : your favorite flavor is worth 100 points. One way to evaluate the number of points to associate to one flavor is the following : </br> x is the number such that it is equivalent to you to either be sure of having this flavor, either having x% chance of getting your favorite flavor and (100-x)% chance of getting nothing at all. </p>";
+    html += " <p class=\"property-info\" id='exemple'></p> </div>";
+  } else {
+
+      html += "Give each flavour a score on a scale 0-100.";
+      html += "100 is the score that you give to your preferred flavour."
+      html += "  0 is the score you give to a flavour wthat you would definitely not eat."
+      html += " The intermediate scores between 0 and 100 have to be interpreted as increasing taste for the flavour; for instance you may interpret 50 as \"I like it half as much as my preferred flavour\"";
+  }
   var i = 0;
     html += " <form method=\"post\" action=\"recup.php\">";
     html += "  <div id ='essai-" + nb_attempt + "'>";
@@ -164,9 +179,11 @@ function createBiddingSections() {
     
     html += "        <div class='calc-control'>";
     html += "          <div class='btns'>";
-    html += "            <button type='button' class='btn reset' onclick='return resetSliders(" + i + ")'>Reset</button>";
-    html += "            <button type='button' class='btn update' onclick='return checkBids()'>Send</button>";
+    html += "         <form><input id='consent'  type='checkbox' name='consent' onclick='return afficheSend()'></form> <p> By checking this box I agree that my preferences will be stored  anonymously for two years and may be used for research purposes </p> ";
+    html += "            <div class='send'>";
+    html +=               "<button title='consent to send' type='button' class='btn update' onclick='return checkBids()' disabled='disabled' >Send</button>";
    // html += "            <input type=\"submit\" class='btn update' value=\"Valider\" />";
+    html += "            </div>";
     html += "          </div>";
     html += "        </div>";
     html += "      </div>";
@@ -199,6 +216,16 @@ function createBiddingSections() {
   $('.accordion').accordion({defaultOpen: 'basics'});
 }
 
+function afficheSend(){
+        if($("#consent").is(":checked")){
+              $(".send").html("<button type='button' class='btn update' onclick='return checkBids()'>Send</button>");
+
+        }
+        else if($("#consent").is(":not(:checked)")){
+                $(".send").html("<button title='consent to send' type='button' class='btn update' onclick='return checkBids()' disabled='disabled' >Send</button>");
+        }
+}
+
 function libre(i){
     var x = i
     pref = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
@@ -210,12 +237,12 @@ function libre(i){
 
 function change_text(){
     pref = document.getElementById('pref').options[document.getElementById('pref').selectedIndex].value;
-    $("#change").text(" We will ask you to express your preferences among the other flavors, knowing the following constraint is imposed : " + selec_taste[pref] + " worth 100 points. One way to evaluate the number of points to assosciate to one flavor is the following : </br> x is the number such that it is equivalent to you to either be certain of having this flavor, either having x% chance of getting this flavor and (100-x)% chance of getting nothing at all.")
+    $("#change").text(" We will ask you to express your preferences among the other flavors, knowing the following constraint is imposed : " + selec_taste[pref] + " worth 100 points. One way to evaluate the number of points to associate to one flavor is the following : x is the number such that you are indifferent between being sure of having this flavor, and having x% chance of getting your favorite flavor and (100-x)% chance of getting nothing at all.")
     var newText = "For example : </br>";
     /*newText += "* S'il vous est égal d'avoir une boule de " + libre(1) + ", ou d'avoir une chance sur deux d'avoir le parfum " + selec_taste[pref] +" et une chance sur deux de ne rien avoir, alors vous pouvez donner une valeur de 50 à " +  libre(1) + ".</br>"; */
-     newText += "* If it is equivalent to you to be certain of either having " + libre(1) + ", either having 50% chance of getting " + selec_taste[pref] +" and 50% chance of getting nothing at all, then you can give 50 points to it. " +  libre(1) + ".</br>";
-     newText += "* If it is equivalent to you to be certain of either having " + libre(2) + ", either having 30% chance of getting " + selec_taste[pref] +" and 70% chance of getting nothing at all, then you can give 30 points to it. " +  libre(2) + ".</br>";
-     newText += "* If it is equivalent to you to be certain of either having " + libre(3) + ", either having 90% chance of getting " + selec_taste[pref] +" and 10% chance of getting nothing at all, then you can give 90 points to it. " +  libre(3) + ".</br>";
+     newText += "* You are indifferent between being sure of having " + libre(1) + ", and having 50% chance of getting " + selec_taste[pref] +" and 50% chance of getting nothing at all, then you can give 50 points to " +  libre(1) + ".</br>";
+     newText += "*  You are indifferent between being sure of having " + libre(2) + ", and having 30% chance of getting " + selec_taste[pref] +" and 70% chance of getting nothing at all, then you can give 30 points to " +  libre(2) + ".</br>";
+     newText += "*  You are indifferent between being sure of having " + libre(3) + ", and having 90% chance of getting " + selec_taste[pref] +" and 10% chance of getting nothing at all, then you can give 90 points to " +  libre(3) + ".</br>";
     $("#exemple").html(newText);
     /*for (j=0; j < nb_selec_taste; j++){
         if (j==pire){
@@ -347,16 +374,27 @@ function checkBids() {
     $('#fairness-table').html('');
     $('#submit-demo').hide();
     /*displayError("Votre participation a bien été prise en compte, merci\n Vous pourrez recommencer dans 2 secondes","bidding-error-0");*/
-    displayError("Your participation have been taken into account. You will be able to restart in two seconds.","bidding-error-0");
+    displayError("Your participation have been taken into account. You will be able to restart in five seconds.","bidding-error-0");
     json = buildJSON();
+    if (enonce == 0)
     $.ajax({
       type: "POST",
-      url: "recup.php",
-      data: {input: json }
+      url: "recup_lot.php",
+      data: json
     }).fail(function() {
       $('#update-results-msg').text("We encountered an internal server error. Sorry for the inconvenience.");
       $('#submit-demo').show();
     });
+    else {
+        $.ajax({
+          type: "POST",
+          url: "recup_int.php",
+          data: json
+        }).fail(function() {
+          $('#update-results-msg').text("We encountered an internal server error. Sorry for the inconvenience.");
+          $('#submit-demo').show();
+        });
+    }
     setTimeout(function (){
     $("#ma_page").remove();
   $('#essai-' + nb_attempt).remove();
@@ -364,7 +402,7 @@ function checkBids() {
     selec_taste = selecTaste(taste);
     createBiddingSections();
 
-}, 2200)
+}, 5000)
     
     
   
@@ -382,7 +420,8 @@ function buildJSON() {
 
 function pollResults() {
   $.getScript('../../../demo/poll?id='+id+'&p='+pwd);
-}</script>
+}
+</script>
     <!--[if lt IE 9]>
 <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->    
